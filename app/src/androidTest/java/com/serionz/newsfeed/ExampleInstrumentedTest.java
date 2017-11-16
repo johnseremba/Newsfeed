@@ -1,4 +1,4 @@
-package com.serionz.newsfeed.newsfeed;
+package com.serionz.newsfeed;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

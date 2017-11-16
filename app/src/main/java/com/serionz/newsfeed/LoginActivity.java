@@ -1,4 +1,4 @@
-package com.serionz.newsfeed.newsfeed;
+package com.serionz.newsfeed;
 
 import android.annotation.SuppressLint;
 import android.support.v7.app.ActionBar;

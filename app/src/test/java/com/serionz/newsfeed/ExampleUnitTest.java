@@ -1,4 +1,4 @@
-package com.serionz.newsfeed.newsfeed;
+package com.serionz.newsfeed;
 
 import org.junit.Test;
 
