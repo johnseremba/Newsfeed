@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_gradient"
     android:theme="@style/FullscreenTransparentStatusBar"
-    tools:context="com.serionz.newsfeed.LoginActivity"
+    tools:context="com.serionz.newsfeed.auth.LoginActivity"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="81dp"
     >
@@ -66,7 +66,7 @@
         app:layout_constraintTop_toBottomOf="@id/txt_app_name"
         />
     <com.facebook.login.widget.LoginButton
-        android:id="@+id/login_button"
+        android:id="@+id/btn_facebook"
         android:layout_width="230dp"
         android:layout_height="32dp"
         android:layout_gravity="center_horizontal"
@@ -76,7 +76,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txt_catch_word"
         />
     <com.google.android.gms.common.SignInButton
-        android:id="@+id/sign_in_button"
+        android:id="@+id/btn_google"
         android:layout_width="240dp"
         android:layout_height="38dp"
         android:layout_marginEnd="8dp"
@@ -84,7 +84,7 @@
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_button"
+        app:layout_constraintTop_toBottomOf="@+id/btn_facebook"
         />
   </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>

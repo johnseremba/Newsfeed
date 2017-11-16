@@ -1,17 +1,28 @@
-package com.serionz.newsfeed;
+package com.serionz.newsfeed.auth;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
+import com.google.android.gms.common.SignInButton;
+import com.serionz.newsfeed.R;
+import com.serionz.newsfeed.news.NewsfeedActivity;
 
 public class LoginActivity extends AppCompatActivity {
+	private SignInButton btnSignIn;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+
+		btnSignIn = (SignInButton) findViewById(R.id.btn_google);
+		btnSignIn.setOnClickListener(new View.OnClickListener() {
+			@Override public void onClick(View view) {
+				Intent newsFeedIntent = new Intent(getApplicationContext(), NewsfeedActivity.class);
+				startActivity(newsFeedIntent);
+			}
+		});
 	}
 
 	@Override
