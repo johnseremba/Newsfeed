@@ -11,6 +11,11 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -21,6 +26,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
@@ -33,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
 	private final String TAG = LoginActivity.class.getSimpleName();
 	private GoogleSignInClient mGoogleSignInClient;
 	private FirebaseAuth mAuth;
+	private CallbackManager mCallbackManager;
 
 	@BindView(R.id.login_progress_bar) ProgressBar progressBar;
 	@BindView(R.id.btn_facebook) LoginButton btnFacebookSignIn;
@@ -41,15 +48,33 @@ public class LoginActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-
 		ButterKnife.bind(this);
+
 		mAuth = FirebaseAuth.getInstance();
+		progressBar.setVisibility(View.INVISIBLE);
+
 		GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
 				.requestIdToken(getString(R.string.default_web_client_id))
 				.requestEmail()
 				.build();
 		mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-		progressBar.setVisibility(View.INVISIBLE);
+
+		mCallbackManager = CallbackManager.Factory.create();
+		btnFacebookSignIn.setReadPermissions("email", "public_profile");
+		btnFacebookSignIn.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+			@Override public void onSuccess(LoginResult loginResult) {
+				Log.d(TAG, "Facebook login successful: " + loginResult);
+				handleFacebookAccessToken(loginResult.getAccessToken());
+			}
+
+			@Override public void onCancel() {
+				Log.d(TAG, "Facebook login cancelled!");
+			}
+
+			@Override public void onError(FacebookException error) {
+				Log.w(TAG, "Facebook login error!", error);
+			}
+		});
 	}
 
 	@Override protected void onStart() {
@@ -82,6 +107,10 @@ public class LoginActivity extends AppCompatActivity {
 			case RC_GOOGLE_SIGN_IN:
 				Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
 				this.handleGoogleSignInResult(task);
+				break;
+			default:
+				Log.d(TAG, "Facebook RequestCode: " + requestCode);
+				mCallbackManager.onActivityResult(requestCode, resultCode, data);
 				break;
 		}
 	}
@@ -117,7 +146,27 @@ public class LoginActivity extends AppCompatActivity {
 		}
 	}
 
-	public void updateUI(FirebaseUser account) {
+	private void handleFacebookAccessToken(AccessToken token) {
+		AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+		mAuth.signInWithCredential(credential)
+				.addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+					@Override public void onComplete(@NonNull Task<AuthResult> task) {
+						if (task.isSuccessful()) {
+							FirebaseUser user = mAuth.getCurrentUser();
+							Log.d(TAG, "Facebook user: " + user);
+							Log.d(TAG, user.getDisplayName());
+							updateUI(user);
+						} else {
+							Log.w(TAG, "signInWithCredential:failue", task.getException());
+							Toast.makeText(LoginActivity.this, "Facebook authentication failed!",
+									Toast.LENGTH_SHORT).show();
+							updateUI(null);
+						}
+					}
+				});
+	}
+
+	private void updateUI(FirebaseUser account) {
 		if(account != null) {
 			User currentUser = new User(
 					account.getUid(),
