@@ -21,6 +21,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -53,26 +54,32 @@ public class LoginActivity extends AppCompatActivity {
 		mAuth = FirebaseAuth.getInstance();
 		progressBar.setVisibility(View.INVISIBLE);
 
+		// Google login implementation
 		GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
 				.requestIdToken(getString(R.string.default_web_client_id))
 				.requestEmail()
 				.build();
 		mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
+		// Facebook login implementation
 		mCallbackManager = CallbackManager.Factory.create();
 		btnFacebookSignIn.setReadPermissions("email", "public_profile");
 		btnFacebookSignIn.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
 			@Override public void onSuccess(LoginResult loginResult) {
-				Log.d(TAG, "Facebook login successful: " + loginResult);
+				progressBar.setVisibility(View.VISIBLE);
 				handleFacebookAccessToken(loginResult.getAccessToken());
 			}
 
 			@Override public void onCancel() {
 				Log.d(TAG, "Facebook login cancelled!");
+				Toast.makeText(LoginActivity.this, "Facebook authentication canceled!",
+						Toast.LENGTH_SHORT).show();
 			}
 
 			@Override public void onError(FacebookException error) {
 				Log.w(TAG, "Facebook login error!", error);
+				Toast.makeText(LoginActivity.this, "Facebook authentication failed!",
+						Toast.LENGTH_SHORT).show();
 			}
 		});
 	}
@@ -153,11 +160,9 @@ public class LoginActivity extends AppCompatActivity {
 					@Override public void onComplete(@NonNull Task<AuthResult> task) {
 						if (task.isSuccessful()) {
 							FirebaseUser user = mAuth.getCurrentUser();
-							Log.d(TAG, "Facebook user: " + user);
-							Log.d(TAG, user.getDisplayName());
 							updateUI(user);
 						} else {
-							Log.w(TAG, "signInWithCredential:failue", task.getException());
+							Log.w(TAG, "facebook sign in failure:", task.getException());
 							Toast.makeText(LoginActivity.this, "Facebook authentication failed!",
 									Toast.LENGTH_SHORT).show();
 							updateUI(null);
