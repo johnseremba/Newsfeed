@@ -1,5 +1,7 @@
 package com.serionz.newsfeed.auth;
 
+import android.net.Uri;
+
 /**
  * Created by johnpaulseremba on 17/11/2017.
  */
@@ -8,13 +10,13 @@ public class User {
 	private String id;
 	private String displayName;
 	private String email;
-	private String profilePicture;
+	private Uri profilePictureURI;
 
-	public User(String id, String displayName, String email, String profilePicture) {
+	public User(String id, String displayName, String email, Uri profilePictureURI) {
 		this.id = id;
 		this.displayName = displayName;
 		this.email = email;
-		this.profilePicture = profilePicture;
+		this.profilePictureURI = profilePictureURI;
 	}
 
 	public String getId() {
@@ -29,8 +31,8 @@ public class User {
 		return this.email;
 	}
 
-	public String getProfilePicture() {
-		return this.profilePicture;
+	public Uri getProfilePictureURI() {
+		return this.profilePictureURI;
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.serionz.newsfeed.news;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +18,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.TextView;
+import android.widget.Toast;
+import com.google.firebase.auth.FirebaseAuth;
 import com.serionz.newsfeed.R;
+import com.serionz.newsfeed.auth.LoginActivity;
 
 public class NewsfeedActivity extends AppCompatActivity {
 
@@ -76,7 +80,10 @@ public class NewsfeedActivity extends AppCompatActivity {
 		int id = item.getItemId();
 
 		//noinspection SimplifiableIfStatement
-		if (id == R.id.action_settings) {
+		if (id == R.id.action_logout) {
+			FirebaseAuth.getInstance().signOut();
+			Intent loginIntent = new Intent(this, LoginActivity.class);
+			startActivity(loginIntent);
 			return true;
 		}
 
