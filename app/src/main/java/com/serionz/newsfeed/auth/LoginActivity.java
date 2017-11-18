@@ -36,7 +36,6 @@ import com.serionz.newsfeed.news.NewsfeedActivity;
 
 public class LoginActivity extends AppCompatActivity {
 	private final int RC_GOOGLE_SIGN_IN = 4001;
-	private final int RC_FACEBOOK_SIGN_IN = 4002;
 	private final String TAG = LoginActivity.class.getSimpleName();
 	private GoogleSignInClient mGoogleSignInClient;
 	private FirebaseAuth mAuth;
@@ -116,7 +115,6 @@ public class LoginActivity extends AppCompatActivity {
 				this.handleGoogleSignInResult(task);
 				break;
 			default:
-				Log.d(TAG, "Facebook RequestCode: " + requestCode);
 				mCallbackManager.onActivityResult(requestCode, resultCode, data);
 				break;
 		}
