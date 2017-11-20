@@ -7,14 +7,26 @@
       android:id="@+id/menu_items"
       android:checkableBehavior="single">
     <item
-        android:id="@+id/nav_camera"
-        android:icon="@drawable/ic_menu_camera"
-        android:title="Import"/>
+        android:id="@+id/nav_customize_feed"
+        android:icon="@drawable/ic_build_black_24dp"
+        android:title="@string/customize_feed"/>
+    <item
+        android:id="@+id/nav_bug_report"
+        android:icon="@drawable/ic_bug_report"
+        android:title="@string/report_an_issue"/>
+    <item
+        android:id="@+id/nav_create_story"
+        android:icon="@drawable/ic_create_black_24dp"
+        android:title="@string/create_story"/>
+    <item
+        android:id="@+id/nav_subscribe"
+        android:icon="@drawable/ic_note_add_black_24dp"
+        android:title="@string/subscribe_news_letter"/>
   </group>
   <group android:id="@+id/auth_menu">
     <item
         android:id="@+id/logout"
-        android:icon="@drawable/ic_menu_send"
+        android:icon="@drawable/ic_reply_black_24dp"
         android:title="@string/logout"/>
   </group>
 

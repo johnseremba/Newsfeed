@@ -23,5 +23,9 @@
   <string name="navigation_drawer_open">Open navigation drawer</string>
   <string name="navigation_drawer_close">Close navigation drawer</string>
   <string name="logout">Logout</string>
+  <string name="customize_feed">Customize feed</string>
+  <string name="report_an_issue">Report an issue</string>
+  <string name="create_story">Create story</string>
+  <string name="subscribe_news_letter">Subscribe to news letter</string>
 
 </resources>
