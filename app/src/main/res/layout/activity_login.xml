@@ -1,55 +1,100 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0099cc"
-    tools:context="com.serionz.newsfeed.newsfeed.LoginActivity"
+    android:background="@drawable/background_gradient"
+    android:theme="@style/FullscreenTransparentStatusBar"
+    tools:context="com.serionz.newsfeed.auth.LoginActivity"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="81dp"
     >
 
-  <!-- The primary full-screen view. This can be replaced with whatever view
-         is needed to present your content, e.g. VideoView, SurfaceView,
-         TextureView, etc. -->
-  <TextView
-      android:id="@+id/fullscreen_content"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:gravity="center"
-      android:keepScreenOn="true"
-      android:text="@string/dummy_content"
-      android:textColor="#33b5e5"
-      android:textSize="50sp"
-      android:textStyle="bold"
+  <ImageView
+      android:id="@+id/img_background"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      android:alpha="0.3"
+      android:scaleType="centerCrop"
+      android:src="@drawable/bg"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
       />
-
-  <!-- This FrameLayout insets its children based on system windows using
-         android:fitsSystemWindows. -->
-  <FrameLayout
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:fitsSystemWindows="true"
+  <android.support.constraint.ConstraintLayout
+      android:layout_width="254dp"
+      android:layout_height="205dp"
+      android:layout_marginBottom="8dp"
+      android:layout_marginEnd="8dp"
+      android:layout_marginStart="8dp"
+      android:layout_marginTop="8dp"
+      android:textAllCaps="true"
+      app:layout_constraintBottom_toBottomOf="@+id/img_background"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="@+id/img_background"
       >
 
-    <LinearLayout
-        android:id="@+id/fullscreen_content_controls"
+    <TextView
+        android:id="@+id/txt_app_name"
+        android:layout_width="247dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="serif"
+        android:text="@string/app_name_caps"
+        android:textAlignment="center"
+        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        android:textColor="@color/colorWhite"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+    <TextView
+        android:id="@+id/txt_catch_word"
+        android:layout_width="wrap_content"
+        android:layout_height="21dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/catch_word"
+        android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
+        android:textColor="@color/colorWhite"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@+id/txt_app_name"
+        app:layout_constraintStart_toStartOf="@+id/txt_app_name"
+        app:layout_constraintTop_toBottomOf="@id/txt_app_name"
+        />
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/btn_facebook"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:background="@color/black_overlay"
-        android:orientation="horizontal"
-        tools:ignore="UselessParent"
-        style="?metaButtonBarStyle"
-        >
-
-      <Button
-          android:id="@+id/dummy_button"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:text="@string/dummy_button"
-          style="?metaButtonBarButtonStyle"
-          />
-
-    </LinearLayout>
-  </FrameLayout>
-
-</FrameLayout>
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_google"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_catch_word"
+        />
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/btn_google"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+    <ProgressBar
+        android:id="@+id/login_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_google"
+        app:layout_constraintEnd_toEndOf="@+id/btn_facebook"
+        app:layout_constraintStart_toStartOf="@+id/btn_facebook"
+        app:layout_constraintTop_toTopOf="@+id/txt_app_name"
+        style="?android:attr/progressBarStyle"
+        />
+  </android.support.constraint.ConstraintLayout>
+</android.support.constraint.ConstraintLayout>
