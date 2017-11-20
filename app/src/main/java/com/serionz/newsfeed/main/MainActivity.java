@@ -1,5 +1,6 @@
 package com.serionz.newsfeed.main;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -23,7 +24,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.TextView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.serionz.newsfeed.R;
+import com.serionz.newsfeed.auth.LoginActivity;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -115,19 +118,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 	@Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 		int id = item.getItemId();
-
-		if (id == R.id.nav_camera) {
-			// Handle the camera action
-		} else if (id == R.id.nav_gallery) {
-
-		} else if (id == R.id.nav_slideshow) {
-
-		} else if (id == R.id.nav_manage) {
-
-		} else if (id == R.id.nav_share) {
-
-		} else if (id == R.id.nav_send) {
-
+		switch (id) {
+			case R.id.logout:
+				FirebaseAuth.getInstance().signOut();
+				Intent loginIntent = new Intent(this, LoginActivity.class);
+				startActivity(loginIntent);
+				break;
 		}
 
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
