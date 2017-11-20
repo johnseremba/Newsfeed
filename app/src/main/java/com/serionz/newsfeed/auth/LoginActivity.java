@@ -21,7 +21,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -32,7 +31,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.serionz.newsfeed.R;
-import com.serionz.newsfeed.news.NewsfeedActivity;
+import com.serionz.newsfeed.main.MainActivity;
 
 public class LoginActivity extends AppCompatActivity {
 	private final int RC_GOOGLE_SIGN_IN = 4001;
@@ -171,14 +170,8 @@ public class LoginActivity extends AppCompatActivity {
 
 	private void updateUI(FirebaseUser account) {
 		if(account != null) {
-			User currentUser = new User(
-					account.getUid(),
-					account.getDisplayName(),
-					account.getEmail(),
-					account.getPhotoUrl()
-			);
 			progressBar.setVisibility(View.INVISIBLE);
-			Intent newsFeedIntent = new Intent(getApplicationContext(), NewsfeedActivity.class);
+			Intent newsFeedIntent = new Intent(getApplicationContext(), MainActivity.class);
 			startActivity(newsFeedIntent);
 		}
 	}
