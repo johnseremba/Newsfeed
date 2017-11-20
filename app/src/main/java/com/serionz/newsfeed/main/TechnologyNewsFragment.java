@@ -1,4 +1,4 @@
-package com.serionz.newsfeed.news;
+package com.serionz.newsfeed.main;
 
 import android.content.Context;
 import android.net.Uri;
@@ -13,12 +13,12 @@ import com.serionz.newsfeed.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link SportsNewsFragment.OnFragmentInteractionListener} interface
+ * {@link TechnologyNewsFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link SportsNewsFragment#newInstance} factory method to
+ * Use the {@link TechnologyNewsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SportsNewsFragment extends Fragment {
+public class TechnologyNewsFragment extends Fragment {
 	// TODO: Rename parameter arguments, choose names that match
 	// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 	private static final String ARG_PARAM1 = "param1";
@@ -30,7 +30,7 @@ public class SportsNewsFragment extends Fragment {
 
 	private OnFragmentInteractionListener mListener;
 
-	public SportsNewsFragment() {
+	public TechnologyNewsFragment() {
 		// Required empty public constructor
 	}
 
@@ -40,11 +40,11 @@ public class SportsNewsFragment extends Fragment {
 	 *
 	 * @param param1 Parameter 1.
 	 * @param param2 Parameter 2.
-	 * @return A new instance of fragment SportsNewsFragment.
+	 * @return A new instance of fragment TechnologyNewsFragment.
 	 */
 	// TODO: Rename and change types and number of parameters
-	public static SportsNewsFragment newInstance(String param1, String param2) {
-		SportsNewsFragment fragment = new SportsNewsFragment();
+	public static TechnologyNewsFragment newInstance(String param1, String param2) {
+		TechnologyNewsFragment fragment = new TechnologyNewsFragment();
 		Bundle args = new Bundle();
 		args.putString(ARG_PARAM1, param1);
 		args.putString(ARG_PARAM2, param2);
@@ -65,7 +65,7 @@ public class SportsNewsFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		return inflater.inflate(R.layout.fragment_sports_news, container, false);
+		return inflater.inflate(R.layout.fragment_technology_news, container, false);
 	}
 
 	// TODO: Rename method, update argument and hook method into UI event

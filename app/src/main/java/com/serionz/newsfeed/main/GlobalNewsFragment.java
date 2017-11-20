@@ -1,4 +1,4 @@
-package com.serionz.newsfeed.news;
+package com.serionz.newsfeed.main;
 
 import android.content.Context;
 import android.net.Uri;

@@ -1,10 +1,11 @@
-package com.serionz.newsfeed.news;
+package com.serionz.newsfeed.main;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.app.ListFragment;
+import com.serionz.newsfeed.main.GlobalNewsFragment;
+import com.serionz.newsfeed.main.SportsNewsFragment;
+import com.serionz.newsfeed.main.TechnologyNewsFragment;
 
 /**
  * Created by johnpaulseremba on 17/11/2017.

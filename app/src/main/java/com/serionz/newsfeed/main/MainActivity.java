@@ -1,6 +1,7 @@
 package com.serionz.newsfeed.main;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -23,10 +24,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.serionz.newsfeed.R;
 import com.serionz.newsfeed.auth.LoginActivity;
+import com.serionz.newsfeed.glide.GlideApp;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -44,11 +48,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	private ViewPager mViewPager;
+	private FirebaseUser currentUser;
+	private TextView userEmail;
+	private TextView userName;
+	private ImageView profilePic;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
@@ -73,6 +83,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 		NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 		navigationView.setNavigationItemSelectedListener(this);
+
+		View header = navigationView.getHeaderView(0);
+		profilePic = (ImageView) header.findViewById(R.id.profile_pic);
+		userName = (TextView) header.findViewById(R.id.user_name);
+		userEmail = (TextView) header.findViewById(R.id.user_email);
+		userEmail.setText(currentUser.getEmail());
+		userName.setText(currentUser.getDisplayName());
+		Uri url = currentUser.getPhotoUrl();
+		GlideApp.with(MainActivity.this).load(url).into(profilePic);
+
 
 		FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 		fab.setOnClickListener(new View.OnClickListener() {
