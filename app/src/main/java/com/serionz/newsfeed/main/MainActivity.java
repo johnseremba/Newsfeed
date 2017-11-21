@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements
 		drawer.addDrawerListener(toggle);
 		toggle.syncState();
 
+
 		this.initializeUserProfile();
 	}
 
