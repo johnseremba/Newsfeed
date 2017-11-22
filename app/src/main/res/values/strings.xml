@@ -2,11 +2,9 @@
   <string name="app_name">Newsfeed</string>
   <string name="app_name_caps">NEWSFEED</string>
 
-  <string name="dummy_button">Dummy Button</string>
-  <string name="dummy_content">DUMMY\nCONTENT</string>
-
   <string name="facebook_app_id">883913385118597</string>
   <string name="fb_login_protocol_scheme">fb883913385118597</string>
+  <string name="newsroom_api_key">638db9109bf6491dac85d64a20547914</string>
 
   <string name="app_login">Login</string>
   <string name="catch_word">Stay informed</string>
@@ -26,6 +24,5 @@
   <string name="customize_feed">Customize feed</string>
   <string name="report_an_issue">Report an issue</string>
   <string name="create_story">Create story</string>
-  <string name="subscribe_news_letter">Subscribe to news letter</string>
-
+  <string name="subscribe_news_letter">Subscribe to articles letter</string>
 </resources>
