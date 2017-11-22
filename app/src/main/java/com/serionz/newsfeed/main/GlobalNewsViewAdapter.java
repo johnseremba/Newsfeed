@@ -14,20 +14,9 @@ import java.util.List;
 
 public class GlobalNewsViewAdapter extends
 		RecyclerView.Adapter<GlobalNewsViewAdapter.ViewHolder> {
-	private List<News> data;
+	private List<Article> data;
 
-	public class ViewHolder extends RecyclerView.ViewHolder {
-		public TextView txtTitle;
-		public TextView txtDesc;
-
-		public ViewHolder(View v) {
-			super(v);
-			txtTitle = (TextView) v.findViewById(R.id.txt_title);
-			txtDesc = (TextView) v.findViewById(R.id.txt_desc);
-		}
-	}
-
-	public GlobalNewsViewAdapter(List<News> data) {
+	public GlobalNewsViewAdapter(List<Article> data) {
 		this.data = data;
 	}
 
@@ -41,14 +30,25 @@ public class GlobalNewsViewAdapter extends
 
 	@Override
 	public void onBindViewHolder(GlobalNewsViewAdapter.ViewHolder holder, int position) {
-		News news = ((News) data.get(position));
-		holder.txtTitle.setText(news.title);
-		holder.txtDesc.setText(news.description);
+		Article articles = ((Article) data.get(position));
+		//holder.txtTitle.setText(articles.title);
+		//holder.txtDesc.setText(articles.description);
 	}
 
 	@Override
 	public int getItemCount() {
 		return data.size();
+	}
+
+	public class ViewHolder extends RecyclerView.ViewHolder {
+		public TextView txtTitle;
+		public TextView txtDesc;
+
+		public ViewHolder(View v) {
+			super(v);
+			txtTitle = (TextView) v.findViewById(R.id.txt_title);
+			txtDesc = (TextView) v.findViewById(R.id.txt_desc);
+		}
 	}
 
 }

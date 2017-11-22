@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements
 	}
 
 	private void initializeTabs() {
-		String tabs[] = { "Global News", "Sports", "Technology" };
+		String tabs[] = { "Global Article", "Sports", "Technology" };
 		for(String tab: tabs) {
 			tabLayout.addTab(tabLayout.newTab().setText(tab));
 		}

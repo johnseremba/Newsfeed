@@ -1,6 +1,5 @@
 package com.serionz.newsfeed.main;
 
-import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -9,9 +8,10 @@ import retrofit2.http.Query;
  * Created by johnpaulseremba on 21/11/2017.
  */
 
-public interface GetNewsInterface {
+public interface NewsroomAPI {
+	String BASE_URL = "https://newsapi.org/v2/";
 
-	@GET("top-headlines")
-	Call<List<News>> loadNews(@Query("sources") String source);
+	@GET("sources")
+	Call<NewsList> loadNews(@Query("sources") String source);
 
 }
