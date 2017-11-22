@@ -1,8 +1,11 @@
 package com.serionz.newsfeed.main;
 
+import android.util.Log;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import java.util.ArrayList;
 import java.util.List;
+import org.json.JSONArray;
 
 /**
  * Created by johnpaulseremba on 21/11/2017.
@@ -14,7 +17,7 @@ public class NewsList {
 	private String status;
 	@SerializedName("articles")
 	@Expose
-	private List<Article> articles;
+	private List<Article> articles = new ArrayList<>();
 
 	public List<Article> getArticles() {
 		return articles;
@@ -34,7 +37,7 @@ public class NewsList {
 
 	@Override
 	public String toString() {
-		return "ClassPojo [articles = " + articles + ", status = " + status + "]";
+		return "ClassPojo [articles = " + getArticles() + ", status = " + status + "]";
 	}
 
 }

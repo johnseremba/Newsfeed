@@ -11,7 +11,7 @@ import retrofit2.http.Query;
 public interface NewsroomAPI {
 	String BASE_URL = "https://newsapi.org/v2/";
 
-	@GET("sources")
+	@GET("top-headlines")
 	Call<NewsList> loadNews(@Query("sources") String source);
 
 }
