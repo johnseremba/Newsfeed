@@ -1,4 +1,4 @@
-package com.serionz.newsfeed.main;
+package com.serionz.newsfeed.main.global_news;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,9 +16,10 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.serionz.newsfeed.R;
+import com.serionz.newsfeed.dagger.AppComponent;
+import dagger.Provides;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import javax.inject.Singleton;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -35,6 +36,7 @@ public class GlobalNewsFragment extends Fragment {
 	private RecyclerView recyclerView;
 	private NewsroomAPI newsRoomAPI;
 
+
 	public GlobalNewsFragment() {
 		// Required empty public constructor
 	}
@@ -50,55 +52,8 @@ public class GlobalNewsFragment extends Fragment {
 		View view = inflater.inflate(R.layout.fragment_global_news, container, false);
 		recyclerView = (RecyclerView) view.findViewById(R.id.news_list);
 		recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-		createNewsFeedAPI();
+		//Controller.createNewsFeedAPI();
 		return view;
-	}
-
-	private HttpLoggingInterceptor getLoggingInterceptor() {
-		HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-		loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-		return loggingInterceptor;
-	}
-
-	OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
-			.addInterceptor(getLoggingInterceptor())
-			.addInterceptor(new Interceptor() {
-				@Override public okhttp3.Response intercept(Chain chain) throws IOException {
-					Request originalRequest = chain.request();
-					Request.Builder builder = originalRequest.newBuilder().header("Authorization",
-							getString(R.string.newsroom_api_key));
-					Request newRequest = builder.build();
-					return chain.proceed(newRequest);
-				}
-			})
-			.build();
-
-	private void createNewsFeedAPI() {
-		Gson gson = new GsonBuilder().create();
-		Retrofit.Builder builder =
-				new Retrofit.Builder()
-						.baseUrl(NewsroomAPI.BASE_URL)
-						.addConverterFactory(GsonConverterFactory.create(gson));
-
-		Retrofit retrofit = builder.client(okHttpClient).build();
-		NewsroomAPI getNewsAPI = retrofit.create(NewsroomAPI.class);
-
-		Call<NewsList> call = getNewsAPI.loadNews("bbc-news");
-		call.enqueue(new Callback<NewsList>() {
-			@Override public void onResponse(Call<NewsList> call, Response<NewsList> response) {
-				if (response.isSuccessful()) {
-					NewsList newslist = response.body();
-					Log.w(TAG, "Article result: " + new Gson().toJson(newslist));
-				} else {
-					Toast.makeText(getContext(), "Some error occurred while fetching results!",
-							Toast.LENGTH_SHORT).show();
-				}
-			}
-
-			@Override public void onFailure(Call<NewsList> call, Throwable t) {
-				Log.w(TAG, "Failed! ", t);
-			}
-		});
 	}
 
 	@Override public void onActivityResult(int requestCode, int resultCode, Intent data) {

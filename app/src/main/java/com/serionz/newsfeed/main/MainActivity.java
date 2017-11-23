@@ -25,6 +25,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.serionz.newsfeed.R;
 import com.serionz.newsfeed.auth.LoginActivity;
 import com.serionz.newsfeed.glide.GlideApp;
+import com.serionz.newsfeed.main.global_news.GlobalNewsFragment;
 
 public class MainActivity extends AppCompatActivity implements
 		NavigationView.OnNavigationItemSelectedListener,

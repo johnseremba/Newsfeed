@@ -1,4 +1,4 @@
-package com.serionz.newsfeed.main;
+package com.serionz.newsfeed.main.global_news;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
