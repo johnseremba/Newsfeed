@@ -17,10 +17,10 @@ public class NewsfeedApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		//appComponent = initDagger(this);
+		appComponent = initDagger(this);
 	}
 
-	//protected AppComponent initDagger(NewsfeedApplication newsfeedApplication) {
-	//	return DaggerAppComponent.builder().appModule(new AppModule(newsfeedApplication)).build();
-	//}
+	protected AppComponent initDagger(NewsfeedApplication newsfeedApplication) {
+		return DaggerAppComponent.builder().appModule(new AppModule(newsfeedApplication)).build();
+	}
 }
