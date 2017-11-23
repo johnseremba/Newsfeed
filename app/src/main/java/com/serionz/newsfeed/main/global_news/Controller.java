@@ -63,7 +63,6 @@ public class Controller {
 	}
 
 	public void fetchGlobalNews(final SendNews sendNews) {
-		NewsList result;
 		String source = "bbc-news";
 
 		Call<NewsList> call = getNewsAPI.loadNews(source);

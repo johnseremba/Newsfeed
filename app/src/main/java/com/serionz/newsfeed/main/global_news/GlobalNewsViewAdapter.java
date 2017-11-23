@@ -1,6 +1,7 @@
 package com.serionz.newsfeed.main.global_news;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,9 @@ import java.util.List;
 
 public class GlobalNewsViewAdapter extends
 		RecyclerView.Adapter<GlobalNewsViewAdapter.ViewHolder> {
-	private ArrayList<Article> data;
+	private List<Article> data;
 
-	public GlobalNewsViewAdapter(ArrayList<Article> data) {
+	public GlobalNewsViewAdapter(List<Article> data) {
 		this.data = data;
 	}
 

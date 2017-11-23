@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,6 +15,8 @@ import android.view.ViewGroup;
 
 import android.widget.Toast;
 import com.serionz.newsfeed.R;
+import java.util.ArrayList;
+import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -22,8 +25,9 @@ public class GlobalNewsFragment extends Fragment implements SendNews {
 	private static final String TAG = GlobalNewsFragment.class.getSimpleName();
 	private OnFragmentInteractionListener mListener;
 	private RecyclerView recyclerView;
-	private NewsroomAPI newsRoomAPI;
 	private Controller mController;
+	private GlobalNewsViewAdapter mGlobalNewsViewAdapter;
+	private List<Article> mArticleList = new ArrayList<>();
 
 	public GlobalNewsFragment() {
 		// Required empty public constructor
@@ -39,33 +43,17 @@ public class GlobalNewsFragment extends Fragment implements SendNews {
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_global_news, container, false);
 		recyclerView = (RecyclerView) view.findViewById(R.id.news_list);
+
+		mGlobalNewsViewAdapter = new GlobalNewsViewAdapter(mArticleList);
 		recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+		recyclerView.setItemAnimator(new DefaultItemAnimator());
+		recyclerView.setAdapter(mGlobalNewsViewAdapter);
 
 		mController = new Controller(getContext());
 		mController.fetchGlobalNews(this);
+		mGlobalNewsViewAdapter.notifyDataSetChanged();
+
 		return view;
-	}
-
-	private void handleNewsResults(Call<NewsList> call) {
-		call.enqueue(new Callback<NewsList>() {
-			@Override public void onResponse(Call<NewsList> call, Response<NewsList> response) {
-				if (response.isSuccessful()) {
-					NewsList newslist = response.body();
-					if (newslist.size() > 0) {
-
-					}
-				} else {
-					Toast.makeText(getContext(), "Some error occurred while fetching results!",
-							Toast.LENGTH_SHORT).show();
-				}
-			}
-
-			@Override public void onFailure(Call<NewsList> call, Throwable t) {
-				Log.w(TAG, "Failed! to fetch news", t);
-				Toast.makeText(getContext(), "Failed to fetch News!",
-						Toast.LENGTH_SHORT).show();
-			}
-		});
 	}
 
 	@Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -90,7 +78,8 @@ public class GlobalNewsFragment extends Fragment implements SendNews {
 	}
 
 	@Override public void receivedNews(NewsList newsList) {
-		Log.w(TAG, "Recieved news: " + newsList);
+		mArticleList.addAll(newsList.getArticles());
+		this.mGlobalNewsViewAdapter.notifyDataSetChanged();
 	}
 
 	public interface OnFragmentInteractionListener {
