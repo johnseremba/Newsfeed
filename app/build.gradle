@@ -57,6 +57,10 @@ dependencies {
   annotationProcessor "com.google.dagger:dagger-compiler:2.11"
   provided 'javax.annotation:jsr250-api:1.0'
   compile 'javax.inject:javax.inject:1'
+
+  // Chrome custom Tabs
+  compile 'com.android.support:customtabs:23.1.0+'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

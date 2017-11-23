@@ -1,5 +1,6 @@
 package com.serionz.newsfeed.main.global_news;
 
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,7 +49,7 @@ public class GlobalNewsViewAdapter extends
 		int imageWidth = holder.coverImage.getMeasuredWidth();
 		int imageHeight = holder.coverImage.getMeasuredHeight();
 		GlideApp.with(holder.itemView)
-				.load(articles.getUrlToImage())
+				.load(Uri.parse(articles.getUrlToImage()))
 				.placeholder(R.drawable.bg)
 				.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
 				.into(holder.coverImage);

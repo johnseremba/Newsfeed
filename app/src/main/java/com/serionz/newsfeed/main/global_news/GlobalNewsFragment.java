@@ -1,9 +1,14 @@
 package com.serionz.newsfeed.main.global_news;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.customtabs.CustomTabsClient;
+import android.support.customtabs.CustomTabsIntent;
+import android.support.customtabs.CustomTabsServiceConnection;
+import android.support.customtabs.CustomTabsSession;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,8 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.serionz.newsfeed.R;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,6 +29,15 @@ public class GlobalNewsFragment extends Fragment implements SendNews {
 	private GlobalNewsViewAdapter mGlobalNewsViewAdapter;
 	private List<Article> mArticleList = new ArrayList<>();
 	private HashMap<String, Integer> newsSources;
+
+	final String CUSTOM_TAB_PACKAGE_NAME = "com.android.chrome";
+	final String websiteURL = "http://viralandroid.com/";
+	final String googleURL = "http://google.com/";
+
+	CustomTabsClient mCustomTabsClient;
+	CustomTabsSession mCustomTabsSession;
+	CustomTabsServiceConnection mCustomTabsServiceConnection;
+	CustomTabsIntent mCustomTabsIntent;
 
 	public GlobalNewsFragment() {
 		// Required empty public constructor
@@ -40,6 +52,7 @@ public class GlobalNewsFragment extends Fragment implements SendNews {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_global_news, container, false);
+
 		newsSources = new HashMap<String, Integer>(){
 			{
 				put("bbc-news", R.drawable.bbc_logo);
@@ -62,6 +75,25 @@ public class GlobalNewsFragment extends Fragment implements SendNews {
 		mController.fetchGlobalNews(this, newsSources);
 		mGlobalNewsViewAdapter.notifyDataSetChanged();
 
+		mCustomTabsServiceConnection = new CustomTabsServiceConnection() {
+			@Override public void onServiceDisconnected(ComponentName componentName) {
+				mCustomTabsClient= null;
+			}
+
+			@Override
+			public void onCustomTabsServiceConnected(ComponentName name, CustomTabsClient client) {
+				mCustomTabsClient = client;
+				mCustomTabsClient.warmup(0L);
+				mCustomTabsSession = mCustomTabsClient.newSession(null);
+			}
+		};
+
+		CustomTabsClient.bindCustomTabsService(getContext(), CUSTOM_TAB_PACKAGE_NAME, mCustomTabsServiceConnection);
+
+		mCustomTabsIntent = new CustomTabsIntent.Builder(mCustomTabsSession)
+				.setShowTitle(true)
+				.build();
+		mCustomTabsIntent.launchUrl(getContext(), Uri.parse(websiteURL));
 		return view;
 	}
 

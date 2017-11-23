@@ -47,6 +47,11 @@
         android:label="@string/title_activity_main"
         android:theme="@style/AppTheme.NoActionBar">
     </activity>
+    <activity
+        android:name=".main.StoryPreviewActivity"
+        android:label="@string/title_activity_story_preview"
+        android:theme="@style/AppTheme.NoActionBar">
+    </activity>
   </application>
 
 </manifest>
