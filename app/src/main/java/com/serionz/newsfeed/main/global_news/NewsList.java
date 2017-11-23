@@ -22,9 +22,13 @@ public class NewsList {
 		return status;
 	}
 
+	public int size() {
+		return articles.size();
+	}
+
 	@Override
 	public String toString() {
-		return "NewsList [articles = " + getArticles() + ", status = " + status + "]";
+		return "{ " + getArticles() + ", status = " + status + "}";
 	}
 
 }

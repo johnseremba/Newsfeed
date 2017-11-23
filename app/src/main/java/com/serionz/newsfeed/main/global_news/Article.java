@@ -40,4 +40,8 @@ public class Article {
 	public String getPublishedAt() {
 		return publishedAt;
 	}
+
+	@Override public String toString() {
+		return "{ " + this.getTitle() + " source: " + this.source + " }";
+	}
 }

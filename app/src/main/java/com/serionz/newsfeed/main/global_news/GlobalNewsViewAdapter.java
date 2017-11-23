@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.serionz.newsfeed.R;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,9 +15,9 @@ import java.util.List;
 
 public class GlobalNewsViewAdapter extends
 		RecyclerView.Adapter<GlobalNewsViewAdapter.ViewHolder> {
-	private List<Article> data;
+	private ArrayList<Article> data;
 
-	public GlobalNewsViewAdapter(List<Article> data) {
+	public GlobalNewsViewAdapter(ArrayList<Article> data) {
 		this.data = data;
 	}
 
@@ -31,8 +32,8 @@ public class GlobalNewsViewAdapter extends
 	@Override
 	public void onBindViewHolder(GlobalNewsViewAdapter.ViewHolder holder, int position) {
 		Article articles = ((Article) data.get(position));
-		//holder.txtTitle.setText(articles.title);
-		//holder.txtDesc.setText(articles.description);
+		holder.txtTitle.setText(articles.getTitle());
+		holder.txtDesc.setText(articles.getDescription());
 	}
 
 	@Override

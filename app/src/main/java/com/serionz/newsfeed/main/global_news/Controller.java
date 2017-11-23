@@ -62,12 +62,26 @@ public class Controller {
 		getNewsAPI = retrofit.create(NewsroomAPI.class);
 	}
 
-	public Call<NewsList> fetchGlobalNews() {
+	public void fetchGlobalNews(final SendNews sendNews) {
 		NewsList result;
 		String source = "bbc-news";
 
 		Call<NewsList> call = getNewsAPI.loadNews(source);
-		return call;
+		call.enqueue(new Callback<NewsList>() {
+			@Override public void onResponse(Call<NewsList> call, Response<NewsList> response) {
+				if (response.isSuccessful()) {
+					NewsList newslist = response.body();
+					sendNews.receivedNews(newslist);
+				} else {
+					Toast.makeText(mContext, "Some error occurred while fetching results!",
+							Toast.LENGTH_SHORT).show();
+				}
+			}
+			@Override public void onFailure(Call<NewsList> call, Throwable t) {
+				Log.w(TAG, "Failed! ", t);
+			}
+		});
 	}
+
 
 }

@@ -18,7 +18,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class GlobalNewsFragment extends Fragment {
+public class GlobalNewsFragment extends Fragment implements SendNews {
 	private static final String TAG = GlobalNewsFragment.class.getSimpleName();
 	private OnFragmentInteractionListener mListener;
 	private RecyclerView recyclerView;
@@ -40,9 +40,9 @@ public class GlobalNewsFragment extends Fragment {
 		View view = inflater.inflate(R.layout.fragment_global_news, container, false);
 		recyclerView = (RecyclerView) view.findViewById(R.id.news_list);
 		recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+
 		mController = new Controller(getContext());
-		Call<NewsList> call = mController.fetchGlobalNews();
-		this.handleNewsResults(call);
+		mController.fetchGlobalNews(this);
 		return view;
 	}
 
@@ -51,6 +51,9 @@ public class GlobalNewsFragment extends Fragment {
 			@Override public void onResponse(Call<NewsList> call, Response<NewsList> response) {
 				if (response.isSuccessful()) {
 					NewsList newslist = response.body();
+					if (newslist.size() > 0) {
+
+					}
 				} else {
 					Toast.makeText(getContext(), "Some error occurred while fetching results!",
 							Toast.LENGTH_SHORT).show();
@@ -58,7 +61,9 @@ public class GlobalNewsFragment extends Fragment {
 			}
 
 			@Override public void onFailure(Call<NewsList> call, Throwable t) {
-				Log.w(TAG, "Failed! ", t);
+				Log.w(TAG, "Failed! to fetch news", t);
+				Toast.makeText(getContext(), "Failed to fetch News!",
+						Toast.LENGTH_SHORT).show();
 			}
 		});
 	}
@@ -82,6 +87,10 @@ public class GlobalNewsFragment extends Fragment {
 	public void onDetach() {
 		super.onDetach();
 		mListener = null;
+	}
+
+	@Override public void receivedNews(NewsList newsList) {
+		Log.w(TAG, "Recieved news: " + newsList);
 	}
 
 	public interface OnFragmentInteractionListener {
