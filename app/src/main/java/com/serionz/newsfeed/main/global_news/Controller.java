@@ -7,6 +7,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.serionz.newsfeed.R;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -62,24 +64,25 @@ public class Controller {
 		getNewsAPI = retrofit.create(NewsroomAPI.class);
 	}
 
-	public void fetchGlobalNews(final SendNews sendNews) {
-		String source = "bbc-news";
+	public void fetchGlobalNews(final SendNews sendNews, HashMap<String, Integer> newsSources) {
 
-		Call<NewsList> call = getNewsAPI.loadNews(source);
-		call.enqueue(new Callback<NewsList>() {
-			@Override public void onResponse(Call<NewsList> call, Response<NewsList> response) {
-				if (response.isSuccessful()) {
-					NewsList newslist = response.body();
-					sendNews.receivedNews(newslist);
-				} else {
-					Toast.makeText(mContext, "Some error occurred while fetching results!",
-							Toast.LENGTH_SHORT).show();
+		for(String source: newsSources.keySet()){
+			Call<NewsList> call = getNewsAPI.loadNews(source);
+			call.enqueue(new Callback<NewsList>() {
+				@Override public void onResponse(Call<NewsList> call, Response<NewsList> response) {
+					if (response.isSuccessful()) {
+						NewsList newslist = response.body();
+						sendNews.receivedNews(newslist);
+					} else {
+						Toast.makeText(mContext, "Some error occurred while fetching results!",
+								Toast.LENGTH_SHORT).show();
+					}
 				}
-			}
-			@Override public void onFailure(Call<NewsList> call, Throwable t) {
-				Log.w(TAG, "Failed! ", t);
-			}
-		});
+				@Override public void onFailure(Call<NewsList> call, Throwable t) {
+					Log.w(TAG, "Failed! ", t);
+				}
+			});
+		}
 	}
 
 

@@ -4,6 +4,8 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.serionz.newsfeed.main.global_news.Article;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -13,6 +15,15 @@ import java.util.List;
 public class NewsList {
 	private String status;
 	private List<Article> articles = new ArrayList<>();
+	private Integer newsIcon;
+
+	public Integer getNewsIcon() {
+		return newsIcon;
+	}
+
+	public void setNewsIcon(Integer newsIcon) {
+		this.newsIcon = newsIcon;
+	}
 
 	public List<Article> getArticles() {
 		return articles;

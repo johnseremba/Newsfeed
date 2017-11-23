@@ -1,5 +1,7 @@
 package com.serionz.newsfeed.main.global_news;
 
+import java.util.Comparator;
+
 /**
  * Created by johnpaulseremba on 21/11/2017.
  */
@@ -52,4 +54,5 @@ public class Article {
 	@Override public String toString() {
 		return "{ " + this.getTitle() + " source: " + this.source + " }";
 	}
+
 }

@@ -8,18 +8,15 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import android.widget.Toast;
 import com.serionz.newsfeed.R;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class GlobalNewsFragment extends Fragment implements SendNews {
 	private static final String TAG = GlobalNewsFragment.class.getSimpleName();
@@ -28,6 +25,7 @@ public class GlobalNewsFragment extends Fragment implements SendNews {
 	private Controller mController;
 	private GlobalNewsViewAdapter mGlobalNewsViewAdapter;
 	private List<Article> mArticleList = new ArrayList<>();
+	private HashMap<String, Integer> newsSources;
 
 	public GlobalNewsFragment() {
 		// Required empty public constructor
@@ -42,15 +40,26 @@ public class GlobalNewsFragment extends Fragment implements SendNews {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_global_news, container, false);
+		newsSources = new HashMap<String, Integer>(){
+			{
+				put("bbc-news", R.drawable.bbc_logo);
+				put("cnn", R.drawable.cnn_logo);
+				put("al-jazeera-english", R.drawable.aljazeera_logo);
+				put("bloomberg", R.drawable.bloomberg_logo);
+				put("business-insider", R.drawable.business_logo);
+				put("buzzfeed", R.drawable.buzzfeed_logo);
+			}
+		};
+
 		recyclerView = (RecyclerView) view.findViewById(R.id.news_list);
 
-		mGlobalNewsViewAdapter = new GlobalNewsViewAdapter(mArticleList);
+		mGlobalNewsViewAdapter = new GlobalNewsViewAdapter(mArticleList, newsSources);
 		recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 		recyclerView.setItemAnimator(new DefaultItemAnimator());
 		recyclerView.setAdapter(mGlobalNewsViewAdapter);
 
 		mController = new Controller(getContext());
-		mController.fetchGlobalNews(this);
+		mController.fetchGlobalNews(this, newsSources);
 		mGlobalNewsViewAdapter.notifyDataSetChanged();
 
 		return view;
@@ -78,9 +87,29 @@ public class GlobalNewsFragment extends Fragment implements SendNews {
 	}
 
 	@Override public void receivedNews(NewsList newsList) {
+		//ArrayList<Article> oldList = new ArrayList<>();
+		//ArrayList<Article> sortedList = new ArrayList<>();
+		//oldList.addAll(mArticleList);
+		//oldList.addAll(newsList.getArticles());
+		//
+		//sortedList = getSortedArticlesByDate(oldList);
+		//mArticleList.clear();
+		//mArticleList.addAll(sortedList);
 		mArticleList.addAll(newsList.getArticles());
 		this.mGlobalNewsViewAdapter.notifyDataSetChanged();
 	}
+
+	public ArrayList<Article> getSortedArticlesByDate(ArrayList<Article> articleList) {
+		Collections.sort(articleList, dateComparator);
+		return articleList;
+	}
+
+	public static Comparator<Article> dateComparator = new Comparator<Article>() {
+		@Override
+		public int compare(Article article1, Article article2) {
+			return (int) (article1.getPublishedAt().compareTo(article2.getPublishedAt()));
+		}
+	};
 
 	public interface OnFragmentInteractionListener {
 		void onFragmentInteraction(Uri uri);

@@ -1,13 +1,17 @@
 package com.serionz.newsfeed.main.global_news;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.serionz.newsfeed.R;
-import java.util.ArrayList;
+import com.serionz.newsfeed.glide.GlideApp;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -17,9 +21,11 @@ import java.util.List;
 public class GlobalNewsViewAdapter extends
 		RecyclerView.Adapter<GlobalNewsViewAdapter.ViewHolder> {
 	private List<Article> data;
+	private HashMap<String, Integer> newsSources;
 
-	public GlobalNewsViewAdapter(List<Article> data) {
+	public GlobalNewsViewAdapter(List<Article> data, HashMap<String, Integer> newsSources) {
 		this.data = data;
+		this.newsSources = newsSources;
 	}
 
 	@Override
@@ -35,6 +41,22 @@ public class GlobalNewsViewAdapter extends
 		Article articles = ((Article) data.get(position));
 		holder.txtTitle.setText(articles.getTitle());
 		holder.txtDesc.setText(articles.getDescription());
+		holder.source.setText(articles.getSource().getName());
+		holder.articleDate.setText(articles.getPublishedAt());
+		holder.author.setText(articles.getAuthor());
+
+		int imageWidth = holder.coverImage.getMeasuredWidth();
+		int imageHeight = holder.coverImage.getMeasuredHeight();
+		GlideApp.with(holder.itemView)
+				.load(articles.getUrlToImage())
+				.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+				.override(344, 167)
+				.into(holder.coverImage);
+
+		GlideApp.with(holder.itemView)
+				.load(this.newsSources.get(articles.getSource().getId()))
+				.diskCacheStrategy(DiskCacheStrategy.ALL)
+				.into(holder.newsIcon);
 	}
 
 	@Override
@@ -43,13 +65,17 @@ public class GlobalNewsViewAdapter extends
 	}
 
 	public class ViewHolder extends RecyclerView.ViewHolder {
-		public TextView txtTitle;
-		public TextView txtDesc;
+		@BindView(R.id.news_icon) ImageView newsIcon;
+		@BindView(R.id.source) TextView source;
+		@BindView(R.id.author) TextView author;
+		@BindView(R.id.date) TextView articleDate;
+		@BindView(R.id.cover_picture) ImageView coverImage;
+		@BindView(R.id.txt_title) TextView txtTitle;
+		@BindView(R.id.txt_desc) TextView txtDesc;
 
-		public ViewHolder(View v) {
+		private ViewHolder(View v) {
 			super(v);
-			txtTitle = (TextView) v.findViewById(R.id.txt_title);
-			txtDesc = (TextView) v.findViewById(R.id.txt_desc);
+			ButterKnife.bind(this, v);
 		}
 	}
 
