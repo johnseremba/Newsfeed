@@ -49,13 +49,13 @@ public class GlobalNewsViewAdapter extends
 		int imageHeight = holder.coverImage.getMeasuredHeight();
 		GlideApp.with(holder.itemView)
 				.load(articles.getUrlToImage())
-				.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-				.override(344, 167)
+				.placeholder(R.drawable.bg)
+				.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
 				.into(holder.coverImage);
 
 		GlideApp.with(holder.itemView)
 				.load(this.newsSources.get(articles.getSource().getId()))
-				.diskCacheStrategy(DiskCacheStrategy.ALL)
+				.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
 				.into(holder.newsIcon);
 	}
 

@@ -87,29 +87,9 @@ public class GlobalNewsFragment extends Fragment implements SendNews {
 	}
 
 	@Override public void receivedNews(NewsList newsList) {
-		//ArrayList<Article> oldList = new ArrayList<>();
-		//ArrayList<Article> sortedList = new ArrayList<>();
-		//oldList.addAll(mArticleList);
-		//oldList.addAll(newsList.getArticles());
-		//
-		//sortedList = getSortedArticlesByDate(oldList);
-		//mArticleList.clear();
-		//mArticleList.addAll(sortedList);
 		mArticleList.addAll(newsList.getArticles());
 		this.mGlobalNewsViewAdapter.notifyDataSetChanged();
 	}
-
-	public ArrayList<Article> getSortedArticlesByDate(ArrayList<Article> articleList) {
-		Collections.sort(articleList, dateComparator);
-		return articleList;
-	}
-
-	public static Comparator<Article> dateComparator = new Comparator<Article>() {
-		@Override
-		public int compare(Article article1, Article article2) {
-			return (int) (article1.getPublishedAt().compareTo(article2.getPublishedAt()));
-		}
-	};
 
 	public interface OnFragmentInteractionListener {
 		void onFragmentInteraction(Uri uri);
