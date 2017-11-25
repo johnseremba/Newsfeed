@@ -1,5 +1,7 @@
 package com.serionz.newsfeed.main.global_news;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import java.util.Comparator;
 
 /**
@@ -54,5 +56,14 @@ public class Article {
 	@Override public String toString() {
 		return "{ " + this.getTitle() + " source: " + this.source + " }";
 	}
+
+	public static Comparator<Article> ArticleComparator = new Comparator<Article>() {
+
+		@Override public int compare(Article article, Article t1) {
+			String article1 = article.getPublishedAt() != null ? article.getPublishedAt().toUpperCase() : "";
+			String article2 = t1.getPublishedAt() != null ? t1.getPublishedAt().toUpperCase() : "";
+			return article1.compareTo(article2);
+		}
+	};
 
 }

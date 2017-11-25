@@ -20,6 +20,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.serionz.newsfeed.R;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -115,7 +117,14 @@ public class GlobalNewsFragment extends Fragment implements SendNews, GlobalNews
 	}
 
 	@Override public void receivedNews(NewsList newsList) {
-		mArticleList.addAll(newsList.getArticles());
+		ArrayList<Article> oldArticles = new ArrayList<>();
+		oldArticles.addAll(mArticleList);
+		oldArticles.addAll(newsList.getArticles());
+
+		Collections.sort(oldArticles, Article.ArticleComparator);
+		mArticleList.clear();
+		mArticleList.addAll(oldArticles);
+
 		this.mGlobalNewsViewAdapter.notifyDataSetChanged();
 	}
 
@@ -123,6 +132,7 @@ public class GlobalNewsFragment extends Fragment implements SendNews, GlobalNews
 		mCustomTabsIntent = new CustomTabsIntent.Builder(mCustomTabsSession)
 				.setShowTitle(true)
 				.setToolbarColor(ContextCompat.getColor(getContext(), R.color.colorPrimary))
+				.setSecondaryToolbarColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark))
 				.build();
 		mCustomTabsIntent.launchUrl(getContext(), url);
 	}
