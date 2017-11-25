@@ -10,9 +10,11 @@ import android.support.customtabs.CustomTabsIntent;
 import android.support.customtabs.CustomTabsServiceConnection;
 import android.support.customtabs.CustomTabsSession;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class GlobalNewsFragment extends Fragment implements SendNews {
+public class GlobalNewsFragment extends Fragment implements SendNews, GlobalNewsViewAdapter.SelectedArticle {
 	private static final String TAG = GlobalNewsFragment.class.getSimpleName();
 	private OnFragmentInteractionListener mListener;
 	private RecyclerView recyclerView;
@@ -32,7 +34,6 @@ public class GlobalNewsFragment extends Fragment implements SendNews {
 
 	final String CUSTOM_TAB_PACKAGE_NAME = "com.android.chrome";
 	final String websiteURL = "http://viralandroid.com/";
-	final String googleURL = "http://google.com/";
 
 	CustomTabsClient mCustomTabsClient;
 	CustomTabsSession mCustomTabsSession;
@@ -66,7 +67,7 @@ public class GlobalNewsFragment extends Fragment implements SendNews {
 
 		recyclerView = (RecyclerView) view.findViewById(R.id.news_list);
 
-		mGlobalNewsViewAdapter = new GlobalNewsViewAdapter(mArticleList, newsSources);
+		mGlobalNewsViewAdapter = new GlobalNewsViewAdapter(this, mArticleList, newsSources);
 		recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 		recyclerView.setItemAnimator(new DefaultItemAnimator());
 		recyclerView.setAdapter(mGlobalNewsViewAdapter);
@@ -89,11 +90,6 @@ public class GlobalNewsFragment extends Fragment implements SendNews {
 		};
 
 		CustomTabsClient.bindCustomTabsService(getContext(), CUSTOM_TAB_PACKAGE_NAME, mCustomTabsServiceConnection);
-
-		mCustomTabsIntent = new CustomTabsIntent.Builder(mCustomTabsSession)
-				.setShowTitle(true)
-				.build();
-		mCustomTabsIntent.launchUrl(getContext(), Uri.parse(websiteURL));
 		return view;
 	}
 
@@ -121,6 +117,14 @@ public class GlobalNewsFragment extends Fragment implements SendNews {
 	@Override public void receivedNews(NewsList newsList) {
 		mArticleList.addAll(newsList.getArticles());
 		this.mGlobalNewsViewAdapter.notifyDataSetChanged();
+	}
+
+	@Override public void OnArticleClick(Uri url) {
+		mCustomTabsIntent = new CustomTabsIntent.Builder(mCustomTabsSession)
+				.setShowTitle(true)
+				.setToolbarColor(ContextCompat.getColor(getContext(), R.color.colorPrimary))
+				.build();
+		mCustomTabsIntent.launchUrl(getContext(), url);
 	}
 
 	public interface OnFragmentInteractionListener {

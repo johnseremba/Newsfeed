@@ -1,7 +1,10 @@
 package com.serionz.newsfeed.main.global_news;
 
+import android.app.Activity;
+import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +26,16 @@ public class GlobalNewsViewAdapter extends
 		RecyclerView.Adapter<GlobalNewsViewAdapter.ViewHolder> {
 	private List<Article> data;
 	private HashMap<String, Integer> newsSources;
+	private SelectedArticle selectedArticle;
 
-	public GlobalNewsViewAdapter(List<Article> data, HashMap<String, Integer> newsSources) {
+	public GlobalNewsViewAdapter(SelectedArticle selectedArticle, List<Article> data, HashMap<String, Integer> newsSources) {
+		this.selectedArticle = selectedArticle;
 		this.data = data;
 		this.newsSources = newsSources;
+	}
+
+	public interface SelectedArticle {
+		void OnArticleClick(Uri url);
 	}
 
 	@Override
@@ -45,14 +54,15 @@ public class GlobalNewsViewAdapter extends
 		holder.source.setText(articles.getSource().getName());
 		holder.articleDate.setText(articles.getPublishedAt());
 		holder.author.setText(articles.getAuthor());
+		holder.position = position;
 
-		int imageWidth = holder.coverImage.getMeasuredWidth();
-		int imageHeight = holder.coverImage.getMeasuredHeight();
-		GlideApp.with(holder.itemView)
-				.load(Uri.parse(articles.getUrlToImage()))
-				.placeholder(R.drawable.bg)
-				.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-				.into(holder.coverImage);
+		if (articles.getUrlToImage() != null) {
+			GlideApp.with(holder.itemView)
+					.load(Uri.parse(articles.getUrlToImage()))
+					.placeholder(R.drawable.bg)
+					.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+					.into(holder.coverImage);
+		}
 
 		GlideApp.with(holder.itemView)
 				.load(this.newsSources.get(articles.getSource().getId()))
@@ -65,7 +75,9 @@ public class GlobalNewsViewAdapter extends
 		return data.size();
 	}
 
-	public class ViewHolder extends RecyclerView.ViewHolder {
+	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+		private Integer position;
+
 		@BindView(R.id.news_icon) ImageView newsIcon;
 		@BindView(R.id.source) TextView source;
 		@BindView(R.id.author) TextView author;
@@ -77,6 +89,12 @@ public class GlobalNewsViewAdapter extends
 		private ViewHolder(View v) {
 			super(v);
 			ButterKnife.bind(this, v);
+			txtTitle.setOnClickListener(this);
+		}
+
+		@Override public void onClick(View view) {
+			Uri myUrl = Uri.parse(data.get(this.position).getUrl());
+			selectedArticle.OnArticleClick(myUrl);
 		}
 	}
 
