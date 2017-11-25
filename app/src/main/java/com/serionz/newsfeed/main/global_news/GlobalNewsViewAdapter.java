@@ -73,7 +73,6 @@ public class GlobalNewsViewAdapter extends
 				Date currentDate = new Date();
 
 				long diff = currentDate.getTime() - publishedAt.getTime();
-				long diffSeconds = diff / 1000 % 60;
 				long diffMinutes = diff / (60 * 1000) % 60;
 				long diffHours = diff / (60 * 60 * 1000);
 				int diffInDays =
@@ -91,6 +90,7 @@ public class GlobalNewsViewAdapter extends
 				} else {
 					publishedDate = diffMinutes + " mins ago";
 				}
+
 				holder.articleDate.setText(publishedDate);
 			}
 		} catch (ParseException e) {
@@ -131,6 +131,7 @@ public class GlobalNewsViewAdapter extends
 			super(v);
 			ButterKnife.bind(this, v);
 			txtTitle.setOnClickListener(this);
+			txtDesc.setOnClickListener(this);
 			coverImage.setOnClickListener(this);
 		}
 
