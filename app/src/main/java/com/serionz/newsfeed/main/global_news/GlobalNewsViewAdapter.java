@@ -15,8 +15,14 @@ import butterknife.ButterKnife;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.serionz.newsfeed.R;
 import com.serionz.newsfeed.glide.GlideApp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * Created by johnpaulseremba on 21/11/2017.
@@ -52,9 +58,44 @@ public class GlobalNewsViewAdapter extends
 		holder.txtTitle.setText(articles.getTitle());
 		holder.txtDesc.setText(articles.getDescription());
 		holder.source.setText(articles.getSource().getName());
-		holder.articleDate.setText(articles.getPublishedAt());
 		holder.author.setText(articles.getAuthor());
 		holder.position = position;
+
+		//holder.articleDate.setText(articles.getPublishedAt());
+		try {
+			if (articles.getPublishedAt() != null) {
+				DateFormat utcFormat = new SimpleDateFormat("E, dd MMM yyyy HH:mm");
+				utcFormat.setTimeZone(TimeZone.getDefault());
+
+				Date publishedAt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+						.parse(articles.getPublishedAt());
+
+				Date currentDate = new Date();
+
+				long diff = currentDate.getTime() - publishedAt.getTime();
+				long diffSeconds = diff / 1000 % 60;
+				long diffMinutes = diff / (60 * 1000) % 60;
+				long diffHours = diff / (60 * 60 * 1000);
+				int diffInDays =
+						(int) ((currentDate.getTime() - publishedAt.getTime()) / (1000 * 60 * 60 * 24));
+				String publishedDate;
+
+				if (diffInDays > 1) {
+					if (diffInDays > 2) {
+						publishedDate = utcFormat.format(publishedAt);
+					} else {
+						publishedDate = diffInDays + " days ago";
+					}
+				} else if (diffHours > 24) {
+					publishedDate = diffHours + " hrs ago";
+				} else {
+					publishedDate = diffMinutes + " mins ago";
+				}
+				holder.articleDate.setText(publishedDate);
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 
 		if (articles.getUrlToImage() != null) {
 			GlideApp.with(holder.itemView)
@@ -90,6 +131,7 @@ public class GlobalNewsViewAdapter extends
 			super(v);
 			ButterKnife.bind(this, v);
 			txtTitle.setOnClickListener(this);
+			coverImage.setOnClickListener(this);
 		}
 
 		@Override public void onClick(View view) {

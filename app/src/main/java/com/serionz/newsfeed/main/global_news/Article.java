@@ -58,11 +58,10 @@ public class Article {
 	}
 
 	public static Comparator<Article> ArticleComparator = new Comparator<Article>() {
-
 		@Override public int compare(Article article, Article t1) {
 			String article1 = article.getPublishedAt() != null ? article.getPublishedAt().toUpperCase() : "";
 			String article2 = t1.getPublishedAt() != null ? t1.getPublishedAt().toUpperCase() : "";
-			return article1.compareTo(article2);
+			return article2.compareTo(article1);
 		}
 	};
 
