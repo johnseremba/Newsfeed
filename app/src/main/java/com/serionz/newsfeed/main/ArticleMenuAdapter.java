@@ -8,7 +8,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.serionz.newsfeed.R;
+import com.serionz.newsfeed.glide.GlideApp;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -16,9 +19,9 @@ import java.util.HashMap;
  */
 
 public class ArticleMenuAdapter extends RecyclerView.Adapter<ArticleMenuAdapter.ViewHolder> {
-	private HashMap<String, Integer> menuItems = new HashMap<>();
+	private ArrayList<ArticleMenu> menuItems = new ArrayList<>();
 
-	public ArticleMenuAdapter(HashMap<String, Integer> menuItems) {
+	public ArticleMenuAdapter(ArrayList<ArticleMenu> menuItems) {
 		this.menuItems = menuItems;
 	}
 
@@ -32,6 +35,11 @@ public class ArticleMenuAdapter extends RecyclerView.Adapter<ArticleMenuAdapter.
 
 	@Override public void onBindViewHolder(ViewHolder holder, int position) {
 		holder.position = position;
+		holder.menuText.setText(menuItems.get(position).getMenuTitle());
+		GlideApp.with(holder.itemView)
+				.load(menuItems.get(position).getMenuIcon())
+				.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+				.into(holder.menuIcon);
 	}
 
 	@Override public int getItemCount() {

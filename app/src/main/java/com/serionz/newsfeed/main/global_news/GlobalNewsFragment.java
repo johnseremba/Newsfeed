@@ -22,6 +22,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.serionz.newsfeed.R;
+import com.serionz.newsfeed.main.ArticleMenu;
+import com.serionz.newsfeed.main.ArticleMenuAdapter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -35,6 +37,7 @@ public class GlobalNewsFragment extends Fragment implements SendNews, GlobalNews
 	private RecyclerView recyclerView;
 	private Controller mController;
 	private GlobalNewsViewAdapter mGlobalNewsViewAdapter;
+	private ArticleMenuAdapter mArticleMenuAdapter;
 	private List<Article> mArticleList = new ArrayList<>();
 	private HashMap<String, Integer> newsSources;
 
@@ -63,12 +66,6 @@ public class GlobalNewsFragment extends Fragment implements SendNews, GlobalNews
 		bottomSheetDialog = new BottomSheetDialog(getContext());
 		articleMenuView = getLayoutInflater().inflate(R.layout.fragment_article_menu, null);
 		bottomSheetDialog.setContentView(articleMenuView);
-		BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from((View) articleMenuView.getParent());
-		bottomSheetBehavior.setPeekHeight(
-				(int) TypedValue.applyDimension(
-						TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics())
-		);
-
 		newsSources = new HashMap<String, Integer>(){
 			{
 				put("bbc-news", R.drawable.bbc_logo);
@@ -79,6 +76,22 @@ public class GlobalNewsFragment extends Fragment implements SendNews, GlobalNews
 				put("buzzfeed", R.drawable.buzzfeed_logo);
 			}
 		};
+
+		ArrayList<ArticleMenu> articleMenus = new ArrayList<ArticleMenu>(){
+			{
+				add(new ArticleMenu("Share", R.drawable.ic_share_black_24dp));
+				add(new ArticleMenu("Hide", R.drawable.ic_visibility_off_black_24dp));
+				add(new ArticleMenu("Not interested in", R.drawable.ic_close_black_24dp));
+				add(new ArticleMenu("Report Story", R.drawable.ic_report_black_24dp));
+				add(new ArticleMenu("Customize Stories", R.drawable.ic_settings_black_24dp));
+			}
+		};
+
+		RecyclerView articleMenuRecyclerView = (RecyclerView) articleMenuView.findViewById(R.id.article_menu_list);
+		mArticleMenuAdapter = new ArticleMenuAdapter(articleMenus);
+		articleMenuRecyclerView.setLayoutManager(new LinearLayoutManager(articleMenuView.getContext()));
+		articleMenuRecyclerView.setItemAnimator(new DefaultItemAnimator());
+		articleMenuRecyclerView.setAdapter(mArticleMenuAdapter);
 
 		recyclerView = (RecyclerView) view.findViewById(R.id.news_list);
 
