@@ -3,6 +3,7 @@ package com.serionz.newsfeed.main.global_news;
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,6 +43,7 @@ public class GlobalNewsViewAdapter extends
 
 	public interface SelectedArticle {
 		void OnArticleClick(Uri url);
+		void OnArticleMenuClick(Article article);
 	}
 
 	@Override
@@ -54,21 +56,21 @@ public class GlobalNewsViewAdapter extends
 
 	@Override
 	public void onBindViewHolder(GlobalNewsViewAdapter.ViewHolder holder, int position) {
-		Article articles = ((Article) data.get(position));
-		holder.txtTitle.setText(articles.getTitle());
-		holder.txtDesc.setText(articles.getDescription());
-		holder.source.setText(articles.getSource().getName());
-		holder.author.setText(articles.getAuthor());
+		Article article = ((Article) data.get(position));
+		holder.txtTitle.setText(article.getTitle());
+		holder.txtDesc.setText(article.getDescription());
+		holder.source.setText(article.getSource().getName());
+		holder.author.setText(article.getAuthor());
 		holder.position = position;
 
 		//holder.articleDate.setText(articles.getPublishedAt());
 		try {
-			if (articles.getPublishedAt() != null) {
+			if (article.getPublishedAt() != null) {
 				DateFormat utcFormat = new SimpleDateFormat("E, dd MMM yyyy HH:mm");
 				utcFormat.setTimeZone(TimeZone.getDefault());
 
 				Date publishedAt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
-						.parse(articles.getPublishedAt());
+						.parse(article.getPublishedAt());
 
 				Date currentDate = new Date();
 
@@ -97,16 +99,16 @@ public class GlobalNewsViewAdapter extends
 			e.printStackTrace();
 		}
 
-		if (articles.getUrlToImage() != null) {
+		if (article.getUrlToImage() != null) {
 			GlideApp.with(holder.itemView)
-					.load(Uri.parse(articles.getUrlToImage()))
+					.load(Uri.parse(article.getUrlToImage()))
 					.placeholder(R.drawable.bg)
 					.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
 					.into(holder.coverImage);
 		}
 
 		GlideApp.with(holder.itemView)
-				.load(this.newsSources.get(articles.getSource().getId()))
+				.load(this.newsSources.get(article.getSource().getId()))
 				.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
 				.into(holder.newsIcon);
 	}
@@ -126,6 +128,7 @@ public class GlobalNewsViewAdapter extends
 		@BindView(R.id.cover_picture) ImageView coverImage;
 		@BindView(R.id.txt_title) TextView txtTitle;
 		@BindView(R.id.txt_desc) TextView txtDesc;
+		@BindView(R.id.article_menu) ImageView articleMenu;
 
 		private ViewHolder(View v) {
 			super(v);
@@ -133,6 +136,12 @@ public class GlobalNewsViewAdapter extends
 			txtTitle.setOnClickListener(this);
 			txtDesc.setOnClickListener(this);
 			coverImage.setOnClickListener(this);
+
+			articleMenu.setOnClickListener(new View.OnClickListener() {
+				@Override public void onClick(View view) {
+					selectedArticle.OnArticleMenuClick(data.get(position));
+				}
+			});
 		}
 
 		@Override public void onClick(View view) {

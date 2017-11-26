@@ -9,12 +9,15 @@ import android.support.customtabs.CustomTabsClient;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.customtabs.CustomTabsServiceConnection;
 import android.support.customtabs.CustomTabsSession;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +30,7 @@ import java.util.List;
 
 public class GlobalNewsFragment extends Fragment implements SendNews, GlobalNewsViewAdapter.SelectedArticle {
 	private static final String TAG = GlobalNewsFragment.class.getSimpleName();
+	private final String CUSTOM_TAB_PACKAGE_NAME = "com.android.chrome";
 	private OnFragmentInteractionListener mListener;
 	private RecyclerView recyclerView;
 	private Controller mController;
@@ -34,13 +38,13 @@ public class GlobalNewsFragment extends Fragment implements SendNews, GlobalNews
 	private List<Article> mArticleList = new ArrayList<>();
 	private HashMap<String, Integer> newsSources;
 
-	final String CUSTOM_TAB_PACKAGE_NAME = "com.android.chrome";
-	final String websiteURL = "http://viralandroid.com/";
+	private CustomTabsClient mCustomTabsClient;
+	private CustomTabsSession mCustomTabsSession;
+	private CustomTabsServiceConnection mCustomTabsServiceConnection;
+	private CustomTabsIntent mCustomTabsIntent;
 
-	CustomTabsClient mCustomTabsClient;
-	CustomTabsSession mCustomTabsSession;
-	CustomTabsServiceConnection mCustomTabsServiceConnection;
-	CustomTabsIntent mCustomTabsIntent;
+	private BottomSheetDialog bottomSheetDialog;
+	private View articleMenuView;
 
 	public GlobalNewsFragment() {
 		// Required empty public constructor
@@ -55,6 +59,15 @@ public class GlobalNewsFragment extends Fragment implements SendNews, GlobalNews
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_global_news, container, false);
+
+		bottomSheetDialog = new BottomSheetDialog(getContext());
+		articleMenuView = getLayoutInflater().inflate(R.layout.fragment_article_menu, null);
+		bottomSheetDialog.setContentView(articleMenuView);
+		BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from((View) articleMenuView.getParent());
+		bottomSheetBehavior.setPeekHeight(
+				(int) TypedValue.applyDimension(
+						TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics())
+		);
 
 		newsSources = new HashMap<String, Integer>(){
 			{
@@ -135,6 +148,10 @@ public class GlobalNewsFragment extends Fragment implements SendNews, GlobalNews
 				.setSecondaryToolbarColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark))
 				.build();
 		mCustomTabsIntent.launchUrl(getContext(), url);
+	}
+
+	@Override public void OnArticleMenuClick(Article article) {
+		bottomSheetDialog.show();
 	}
 
 	public interface OnFragmentInteractionListener {
