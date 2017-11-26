@@ -12,7 +12,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.serionz.newsfeed.R;
 import com.serionz.newsfeed.glide.GlideApp;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by johnpaulseremba on 26/11/2017.
@@ -20,9 +19,15 @@ import java.util.HashMap;
 
 public class ArticleMenuAdapter extends RecyclerView.Adapter<ArticleMenuAdapter.ViewHolder> {
 	private ArrayList<ArticleMenu> menuItems = new ArrayList<>();
+	private ArticleMenuInterface mArticleMenuInterface;
 
-	public ArticleMenuAdapter(ArrayList<ArticleMenu> menuItems) {
+	public interface ArticleMenuInterface {
+		void OnMenuItemClick(ArticleMenu articleMenu);
+	}
+
+	public ArticleMenuAdapter(ArticleMenuInterface articleMenuInterface, ArrayList<ArticleMenu> menuItems) {
 		this.menuItems = menuItems;
+		this.mArticleMenuInterface = articleMenuInterface;
 	}
 
 	@Override
@@ -46,7 +51,7 @@ public class ArticleMenuAdapter extends RecyclerView.Adapter<ArticleMenuAdapter.
 		return this.menuItems.size();
 	}
 
-	public class ViewHolder extends RecyclerView.ViewHolder {
+	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 		private Integer position;
 
 		@BindView(R.id.article_menu_text) TextView menuText;
@@ -55,6 +60,11 @@ public class ArticleMenuAdapter extends RecyclerView.Adapter<ArticleMenuAdapter.
 		public ViewHolder(View itemView) {
 			super(itemView);
 			ButterKnife.bind(this, itemView);
+			menuText.setOnClickListener(this);
+		}
+
+		@Override public void onClick(View view) {
+			mArticleMenuInterface.OnMenuItemClick(menuItems.get(this.position));
 		}
 	}
 }

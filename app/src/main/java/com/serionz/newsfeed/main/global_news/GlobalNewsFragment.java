@@ -9,15 +9,12 @@ import android.support.customtabs.CustomTabsClient;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.customtabs.CustomTabsServiceConnection;
 import android.support.customtabs.CustomTabsSession;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,11 +23,13 @@ import com.serionz.newsfeed.main.ArticleMenu;
 import com.serionz.newsfeed.main.ArticleMenuAdapter;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-public class GlobalNewsFragment extends Fragment implements SendNews, GlobalNewsViewAdapter.SelectedArticle {
+public class GlobalNewsFragment extends Fragment implements
+		SendNews,
+		GlobalNewsViewAdapter.SelectedArticle,
+		ArticleMenuAdapter.ArticleMenuInterface {
 	private static final String TAG = GlobalNewsFragment.class.getSimpleName();
 	private final String CUSTOM_TAB_PACKAGE_NAME = "com.android.chrome";
 	private OnFragmentInteractionListener mListener;
@@ -88,7 +87,7 @@ public class GlobalNewsFragment extends Fragment implements SendNews, GlobalNews
 		};
 
 		RecyclerView articleMenuRecyclerView = (RecyclerView) articleMenuView.findViewById(R.id.article_menu_list);
-		mArticleMenuAdapter = new ArticleMenuAdapter(articleMenus);
+		mArticleMenuAdapter = new ArticleMenuAdapter(this, articleMenus);
 		articleMenuRecyclerView.setLayoutManager(new LinearLayoutManager(articleMenuView.getContext()));
 		articleMenuRecyclerView.setItemAnimator(new DefaultItemAnimator());
 		articleMenuRecyclerView.setAdapter(mArticleMenuAdapter);
@@ -165,6 +164,10 @@ public class GlobalNewsFragment extends Fragment implements SendNews, GlobalNews
 
 	@Override public void OnArticleMenuClick(Article article) {
 		bottomSheetDialog.show();
+	}
+
+	@Override public void OnMenuItemClick(ArticleMenu articleMenu) {
+		bottomSheetDialog.dismiss();
 	}
 
 	public interface OnFragmentInteractionListener {

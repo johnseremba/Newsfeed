@@ -1,11 +1,7 @@
 package com.serionz.newsfeed.main.global_news;
 
-import android.app.Activity;
-import android.content.Context;
 import android.net.Uri;
-import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +15,6 @@ import com.serionz.newsfeed.glide.GlideApp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -137,12 +132,15 @@ public class GlobalNewsViewAdapter extends
 			txtDesc.setOnClickListener(this);
 			coverImage.setOnClickListener(this);
 
-			articleMenu.setOnClickListener(new View.OnClickListener() {
-				@Override public void onClick(View view) {
-					selectedArticle.OnArticleMenuClick(data.get(position));
-				}
-			});
+			articleMenu.setOnClickListener(this.bottomSheet);
+			source.setOnClickListener(this.bottomSheet);
 		}
+
+		private View.OnClickListener bottomSheet = new View.OnClickListener() {
+			@Override public void onClick(View view) {
+				selectedArticle.OnArticleMenuClick(data.get(position));
+			}
+		};
 
 		@Override public void onClick(View view) {
 			Uri myUrl = Uri.parse(data.get(this.position).getUrl());
