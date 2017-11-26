@@ -2,16 +2,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.serionz.newsfeed.main.GlobalNewsFragment"
+    tools:context="com.serionz.newsfeed.main.global_news.GlobalNewsFragment"
     >
 
-  <TextView
-      android:id="@+id/txt_fragment"
+  <android.support.v7.widget.RecyclerView
+      android:id="@+id/news_list"
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:text="Global news"
-      android:textSize="30sp"
-      android:layout_gravity="center"
-      />
+      android:layout_height="wrap_content"
+      >
+
+  </android.support.v7.widget.RecyclerView>
 
 </FrameLayout>
