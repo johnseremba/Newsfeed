@@ -47,6 +47,7 @@ public class GlobalNewsFragment extends Fragment implements
 
 	private BottomSheetDialog bottomSheetDialog;
 	private View articleMenuView;
+	private Article selectedArticle;
 
 	public GlobalNewsFragment() {
 		// Required empty public constructor
@@ -163,11 +164,26 @@ public class GlobalNewsFragment extends Fragment implements
 	}
 
 	@Override public void OnArticleMenuClick(Article article) {
+		selectedArticle = article;
 		bottomSheetDialog.show();
 	}
 
 	@Override public void OnMenuItemClick(ArticleMenu articleMenu) {
 		bottomSheetDialog.dismiss();
+		switch (articleMenu.getMenuIcon()) {
+			case R.drawable.ic_share_black_24dp:
+				createShareIntent();
+				break;
+		}
+	}
+
+	private void createShareIntent() {
+		Intent shareIntent = new Intent();
+		shareIntent.setAction(Intent.ACTION_SEND);
+		shareIntent.setType("text/plain");
+		shareIntent.putExtra(Intent.EXTRA_SUBJECT, this.selectedArticle.getTitle());
+		shareIntent.putExtra(Intent.EXTRA_TEXT, this.selectedArticle.getUrl());
+		startActivity(shareIntent);
 	}
 
 	public interface OnFragmentInteractionListener {
