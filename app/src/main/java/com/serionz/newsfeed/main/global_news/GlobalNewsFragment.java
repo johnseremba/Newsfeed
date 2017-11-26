@@ -177,6 +177,11 @@ public class GlobalNewsFragment extends Fragment implements
 		}
 	}
 
+	@Override public void OnShareArticleClick(Article article) {
+		this.selectedArticle = article;
+		createShareIntent();
+	}
+
 	private void createShareIntent() {
 		Intent shareIntent = new Intent();
 		shareIntent.setAction(Intent.ACTION_SEND);

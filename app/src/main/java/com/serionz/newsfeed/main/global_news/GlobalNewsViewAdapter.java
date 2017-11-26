@@ -39,6 +39,7 @@ public class GlobalNewsViewAdapter extends
 	public interface SelectedArticle {
 		void OnArticleClick(Uri url);
 		void OnArticleMenuClick(Article article);
+		void OnShareArticleClick(Article article);
 	}
 
 	@Override
@@ -125,6 +126,8 @@ public class GlobalNewsViewAdapter extends
 		@BindView(R.id.txt_desc) TextView txtDesc;
 		@BindView(R.id.article_menu) ImageView articleMenu;
 
+		@BindView(R.id.share) ImageView shareArticle;
+
 		private ViewHolder(View v) {
 			super(v);
 			ButterKnife.bind(this, v);
@@ -134,6 +137,11 @@ public class GlobalNewsViewAdapter extends
 
 			articleMenu.setOnClickListener(this.bottomSheet);
 			source.setOnClickListener(this.bottomSheet);
+			shareArticle.setOnClickListener(new View.OnClickListener() {
+				@Override public void onClick(View view) {
+					selectedArticle.OnShareArticleClick(data.get(position));
+				}
+			});
 		}
 
 		private View.OnClickListener bottomSheet = new View.OnClickListener() {
