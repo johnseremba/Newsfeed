@@ -1,4 +1,4 @@
-package com.serionz.newsfeed.ui;
+package com.serionz.newsfeed.ui.app;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -25,7 +25,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.serionz.newsfeed.R;
 import com.serionz.newsfeed.ui.auth.LoginActivity;
 import com.serionz.newsfeed.glide.GlideApp;
-import com.serionz.newsfeed.ui.app.NewsfeedAdapter;
 import com.serionz.newsfeed.ui.global_news.GlobalNewsFragment;
 import com.serionz.newsfeed.ui.sports_news.SportsNewsFragment;
 import com.serionz.newsfeed.ui.tech_news.TechnologyNewsFragment;
