@@ -1,4 +1,4 @@
-package com.serionz.newsfeed.main.global_news;
+package com.serionz.newsfeed.ui.global_news;
 
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +12,7 @@ import butterknife.ButterKnife;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.serionz.newsfeed.R;
 import com.serionz.newsfeed.glide.GlideApp;
+import com.serionz.newsfeed.data.network.model.Article;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

@@ -1,4 +1,4 @@
-package com.serionz.newsfeed.main.global_news;
+package com.serionz.newsfeed.ui.global_news;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -19,8 +19,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.serionz.newsfeed.R;
-import com.serionz.newsfeed.main.ArticleMenu;
-import com.serionz.newsfeed.main.ArticleMenuAdapter;
+import com.serionz.newsfeed.data.db.model.ArticleMenu;
+import com.serionz.newsfeed.data.network.Controller;
+import com.serionz.newsfeed.data.network.model.Article;
+import com.serionz.newsfeed.data.network.model.NewsList;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;

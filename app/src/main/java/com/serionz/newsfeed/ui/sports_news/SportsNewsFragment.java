@@ -1,4 +1,4 @@
-package com.serionz.newsfeed.main;
+package com.serionz.newsfeed.ui.sports_news;
 
 import android.content.Context;
 import android.net.Uri;

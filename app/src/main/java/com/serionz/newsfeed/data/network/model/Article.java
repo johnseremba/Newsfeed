@@ -1,7 +1,5 @@
-package com.serionz.newsfeed.main.global_news;
+package com.serionz.newsfeed.data.network.model;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import java.util.Comparator;
 
 /**

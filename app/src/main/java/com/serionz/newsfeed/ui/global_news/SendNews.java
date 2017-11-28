@@ -1,4 +1,6 @@
-package com.serionz.newsfeed.main.global_news;
+package com.serionz.newsfeed.ui.global_news;
+
+import com.serionz.newsfeed.data.network.model.NewsList;
 
 /**
  * Created by johnpaulseremba on 23/11/2017.

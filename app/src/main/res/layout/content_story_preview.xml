@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.serionz.newsfeed.main.StoryPreviewActivity"
+    tools:context="com.serionz.newsfeed.ui.StoryPreviewActivity"
     tools:showIn="@layout/activity_story_preview"
     >
 

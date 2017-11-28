@@ -1,4 +1,4 @@
-package com.serionz.newsfeed.main.global_news;
+package com.serionz.newsfeed.data.network;
 
 import android.content.Context;
 import android.util.Log;
@@ -6,8 +6,9 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.serionz.newsfeed.R;
+import com.serionz.newsfeed.ui.global_news.SendNews;
+import com.serionz.newsfeed.data.network.model.NewsList;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;

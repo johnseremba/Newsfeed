@@ -1,4 +1,4 @@
-package com.serionz.newsfeed.dagger;
+package com.serionz.newsfeed.di;
 
 import android.app.Application;
 import android.content.Context;

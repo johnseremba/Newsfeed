@@ -1,4 +1,4 @@
-package com.serionz.newsfeed.main;
+package com.serionz.newsfeed.ui.global_news;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +10,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.serionz.newsfeed.R;
+import com.serionz.newsfeed.data.db.model.ArticleMenu;
 import com.serionz.newsfeed.glide.GlideApp;
 import java.util.ArrayList;
 

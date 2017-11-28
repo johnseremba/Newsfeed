@@ -1,11 +1,6 @@
-package com.serionz.newsfeed.main.global_news;
+package com.serionz.newsfeed.data.network.model;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-import com.serionz.newsfeed.main.global_news.Article;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**

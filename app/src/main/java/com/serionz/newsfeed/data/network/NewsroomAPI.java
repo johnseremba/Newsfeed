@@ -1,6 +1,6 @@
-package com.serionz.newsfeed.main.global_news;
+package com.serionz.newsfeed.data.network;
 
-import com.serionz.newsfeed.main.global_news.NewsList;
+import com.serionz.newsfeed.data.network.model.NewsList;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;

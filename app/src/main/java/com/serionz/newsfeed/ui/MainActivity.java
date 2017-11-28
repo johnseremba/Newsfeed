@@ -1,4 +1,4 @@
-package com.serionz.newsfeed.main;
+package com.serionz.newsfeed.ui;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -23,9 +23,12 @@ import butterknife.BindView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.serionz.newsfeed.R;
-import com.serionz.newsfeed.auth.LoginActivity;
+import com.serionz.newsfeed.ui.auth.LoginActivity;
 import com.serionz.newsfeed.glide.GlideApp;
-import com.serionz.newsfeed.main.global_news.GlobalNewsFragment;
+import com.serionz.newsfeed.ui.app.NewsfeedAdapter;
+import com.serionz.newsfeed.ui.global_news.GlobalNewsFragment;
+import com.serionz.newsfeed.ui.sports_news.SportsNewsFragment;
+import com.serionz.newsfeed.ui.tech_news.TechnologyNewsFragment;
 
 public class MainActivity extends AppCompatActivity implements
 		NavigationView.OnNavigationItemSelectedListener,
@@ -44,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements
 	private TabLayout tabLayout;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 

@@ -1,4 +1,4 @@
-package com.serionz.newsfeed.auth;
+package com.serionz.newsfeed.ui.auth;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -31,7 +31,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.serionz.newsfeed.R;
-import com.serionz.newsfeed.main.MainActivity;
+import com.serionz.newsfeed.ui.MainActivity;
 
 public class LoginActivity extends AppCompatActivity {
 	private final int RC_GOOGLE_SIGN_IN = 4001;

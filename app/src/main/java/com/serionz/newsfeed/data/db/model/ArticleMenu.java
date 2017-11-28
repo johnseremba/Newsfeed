@@ -1,4 +1,4 @@
-package com.serionz.newsfeed.main;
+package com.serionz.newsfeed.data.db.model;
 
 /**
  * Created by johnpaulseremba on 26/11/2017.
