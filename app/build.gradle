@@ -3,7 +3,6 @@ apply plugin: 'com.android.application'
 android {
   compileSdkVersion 26
   buildToolsVersion '26.0.2'
-  compileOptions.incremental = false
   defaultConfig {
     applicationId "com.serionz.newsfeed.newsfeed"
     minSdkVersion 21

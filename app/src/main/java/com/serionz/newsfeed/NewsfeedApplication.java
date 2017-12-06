@@ -1,9 +1,9 @@
 package com.serionz.newsfeed;
 
 import android.app.Application;
-import com.serionz.newsfeed.di.component.ApplicationComponent;
-import com.serionz.newsfeed.di.component.DaggerApplicationComponent;
-import com.serionz.newsfeed.di.module.ApplicationModule;
+import com.serionz.newsfeed.di.component.DaggerNewsfeedComponent;
+import com.serionz.newsfeed.di.component.NewsfeedComponent;
+import com.serionz.newsfeed.di.module.NewsfeedModule;
 
 /**
  * Created by johnpaulseremba on 22/11/2017.
@@ -11,23 +11,22 @@ import com.serionz.newsfeed.di.module.ApplicationModule;
 
 public class NewsfeedApplication extends Application {
 
-	private ApplicationComponent applicationComponent;
+	private NewsfeedComponent mNewsfeedComponent;
 
-	public ApplicationComponent getApplicationComponent() {
-		return applicationComponent;
+	public NewsfeedComponent getNewsfeedComponent() {
+		return mNewsfeedComponent;
 	}
 
-	public void setApplicationComponent(ApplicationComponent applicationComponent) {
-		this.applicationComponent = applicationComponent;
+	public void setNewsfeedComponent(NewsfeedComponent newsfeedComponent) {
+		this.mNewsfeedComponent = newsfeedComponent;
 	}
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		applicationComponent = DaggerApplicationComponent
+		mNewsfeedComponent = DaggerNewsfeedComponent
 				.builder()
-				.applicationModule(new ApplicationModule(this))
+				.newsfeedModule(new NewsfeedModule(this))
 				.build();
-		applicationComponent.inject(this);
 	}
 }
