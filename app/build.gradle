@@ -10,7 +10,7 @@ android {
     versionCode 1
     versionName "1.0"
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    buildConfigField "String", "NEWS_API_KEY", "638db9109bf6491dac85d64a20547914"
+    buildConfigField "String", "NEWS_API_KEY", NEWS_API_KEY
   }
   buildTypes {
     release {

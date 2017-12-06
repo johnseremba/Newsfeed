@@ -29,6 +29,5 @@ public class NewsfeedApplication extends Application {
 				.newsfeedModule(new NewsfeedModule(this))
 				.build();
 		mNewsfeedComponent.inject(this);
-
 	}
 }

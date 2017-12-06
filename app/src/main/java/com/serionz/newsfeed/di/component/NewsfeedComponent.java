@@ -18,6 +18,7 @@ public interface NewsfeedComponent {
 
 	void inject(NewsfeedApplication app);
 
+	@ApplicationContext
 	Context context();
 
 	Application application();
