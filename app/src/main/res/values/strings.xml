@@ -4,6 +4,7 @@
 
   <string name="facebook_app_id">883913385118597</string>
   <string name="fb_login_protocol_scheme">fb883913385118597</string>
+
   <string name="newsroom_api_key">638db9109bf6491dac85d64a20547914</string>
 
   <string name="app_login">Login</string>

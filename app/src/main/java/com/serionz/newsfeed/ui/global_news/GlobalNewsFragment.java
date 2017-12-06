@@ -31,7 +31,9 @@ import java.util.List;
 public class GlobalNewsFragment extends Fragment implements
 		SendNews,
 		GlobalNewsViewAdapter.SelectedArticle,
-		ArticleMenuAdapter.ArticleMenuInterface {
+		ArticleMenuAdapter.ArticleMenuInterface,
+		GlobalNewsFragmentContract.View {
+
 	private static final String TAG = GlobalNewsFragment.class.getSimpleName();
 	private final String CUSTOM_TAB_PACKAGE_NAME = "com.android.chrome";
 	private OnFragmentInteractionListener mListener;

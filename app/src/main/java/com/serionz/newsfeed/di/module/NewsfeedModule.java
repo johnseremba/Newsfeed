@@ -2,6 +2,9 @@ package com.serionz.newsfeed.di.module;
 
 import android.app.Application;
 import android.content.Context;
+import com.serionz.newsfeed.BuildConfig;
+import com.serionz.newsfeed.di.ApiInfo;
+import com.serionz.newsfeed.di.ApplicationContext;
 import dagger.Module;
 import dagger.Provides;
 
@@ -18,12 +21,21 @@ public class NewsfeedModule {
 		this.mApplication = application;
 	}
 
-	@Provides Context provideContext() {
+	@Provides
+	@ApplicationContext
+	Context provideContext() {
 		return mApplication;
 	}
 
-	@Provides Application provideApplication() {
+	@Provides
+	@ApplicationContext
+	Application provideApplication() {
 		return mApplication;
 	}
 
+	@Provides
+	@ApiInfo
+	String provideNewsroomApiKey() {
+		return BuildConfig.NEWS_API_KEY;
+	}
 }
