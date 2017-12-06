@@ -2,7 +2,6 @@ package com.serionz.newsfeed.di.component;
 
 import com.serionz.newsfeed.di.PerActivity;
 import com.serionz.newsfeed.di.module.ActivityModule;
-import com.serionz.newsfeed.di.module.NewsfeedModule;
 import com.serionz.newsfeed.ui.app.MainActivity;
 import com.serionz.newsfeed.ui.auth.LoginActivity;
 import com.serionz.newsfeed.ui.global_news.GlobalNewsFragment;
