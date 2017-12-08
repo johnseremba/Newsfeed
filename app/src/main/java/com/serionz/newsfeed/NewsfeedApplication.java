@@ -17,10 +17,6 @@ public class NewsfeedApplication extends Application {
 		return mNewsfeedComponent;
 	}
 
-	public void setNewsfeedComponent(NewsfeedComponent newsfeedComponent) {
-		this.mNewsfeedComponent = newsfeedComponent;
-	}
-
 	@Override
 	public void onCreate() {
 		super.onCreate();
