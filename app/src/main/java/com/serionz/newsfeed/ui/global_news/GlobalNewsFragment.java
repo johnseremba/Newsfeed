@@ -53,6 +53,8 @@ public class GlobalNewsFragment extends Fragment implements
 	private View articleMenuView;
 	private Article selectedArticle;
 
+	private GlobalNewsFragmentContract.Presenter presenter;
+
 	public GlobalNewsFragment() {
 		// Required empty public constructor
 	}
@@ -66,6 +68,8 @@ public class GlobalNewsFragment extends Fragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_global_news, container, false);
+
+		presenter = new GlobalNewsFragmentPresenter(GlobalNewsFragment.this);
 
 		bottomSheetDialog = new BottomSheetDialog(getContext());
 		articleMenuView = getLayoutInflater().inflate(R.layout.fragment_article_menu, null);

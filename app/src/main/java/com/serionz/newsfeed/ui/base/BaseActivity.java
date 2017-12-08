@@ -87,7 +87,7 @@ public class BaseActivity extends AppCompatActivity implements MvpView, BaseFrag
 
 	}
 
-	@Override public void onFragmentDetached() {
+	@Override public void onFragmentDetached(String tag) {
 
 	}
 }
