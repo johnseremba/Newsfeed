@@ -23,13 +23,13 @@ import com.serionz.newsfeed.data.db.model.ArticleMenu;
 import com.serionz.newsfeed.data.network.Controller;
 import com.serionz.newsfeed.data.network.model.Article;
 import com.serionz.newsfeed.data.network.model.NewsList;
+import com.serionz.newsfeed.utils.NewsUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
 public class GlobalNewsFragment extends Fragment implements
-		SendNews,
 		GlobalNewsViewAdapter.SelectedArticle,
 		ArticleMenuAdapter.ArticleMenuInterface,
 		GlobalNewsFragmentContract.View {
@@ -38,7 +38,6 @@ public class GlobalNewsFragment extends Fragment implements
 	private final String CUSTOM_TAB_PACKAGE_NAME = "com.android.chrome";
 	private OnFragmentInteractionListener mListener;
 	private RecyclerView recyclerView;
-	private Controller mController;
 	private GlobalNewsViewAdapter mGlobalNewsViewAdapter;
 	private ArticleMenuAdapter mArticleMenuAdapter;
 	private List<Article> mArticleList = new ArrayList<>();
@@ -54,6 +53,8 @@ public class GlobalNewsFragment extends Fragment implements
 	private Article selectedArticle;
 
 	private GlobalNewsFragmentContract.Presenter presenter;
+	private ArrayList<ArticleMenu> articleMenus;
+	private Controller mController;
 
 	public GlobalNewsFragment() {
 		// Required empty public constructor
@@ -70,38 +71,20 @@ public class GlobalNewsFragment extends Fragment implements
 		View view = inflater.inflate(R.layout.fragment_global_news, container, false);
 
 		presenter = new GlobalNewsFragmentPresenter(GlobalNewsFragment.this);
-
 		bottomSheetDialog = new BottomSheetDialog(getContext());
+
 		articleMenuView = getLayoutInflater().inflate(R.layout.fragment_article_menu, null);
 		bottomSheetDialog.setContentView(articleMenuView);
-		newsSources = new HashMap<String, Integer>(){
-			{
-				put("bbc-news", R.drawable.bbc_logo);
-				put("cnn", R.drawable.cnn_logo);
-				put("al-jazeera-english", R.drawable.aljazeera_logo);
-				put("bloomberg", R.drawable.bloomberg_logo);
-				put("business-insider", R.drawable.business_logo);
-				put("buzzfeed", R.drawable.buzzfeed_logo);
-			}
-		};
 
-		ArrayList<ArticleMenu> articleMenus = new ArrayList<ArticleMenu>(){
-			{
-				add(new ArticleMenu("Share", R.drawable.ic_share_black_24dp));
-				add(new ArticleMenu("Hide", R.drawable.ic_visibility_off_black_24dp));
-				add(new ArticleMenu("Not interested in", R.drawable.ic_close_black_24dp));
-				add(new ArticleMenu("Report Story", R.drawable.ic_report_black_24dp));
-				add(new ArticleMenu("Customize Stories", R.drawable.ic_settings_black_24dp));
-			}
-		};
+		initializeNewsData();
 
 		RecyclerView articleMenuRecyclerView = (RecyclerView) articleMenuView.findViewById(R.id.article_menu_list);
+		recyclerView = (RecyclerView) view.findViewById(R.id.news_list);
+
 		mArticleMenuAdapter = new ArticleMenuAdapter(this, articleMenus);
 		articleMenuRecyclerView.setLayoutManager(new LinearLayoutManager(articleMenuView.getContext()));
 		articleMenuRecyclerView.setItemAnimator(new DefaultItemAnimator());
 		articleMenuRecyclerView.setAdapter(mArticleMenuAdapter);
-
-		recyclerView = (RecyclerView) view.findViewById(R.id.news_list);
 
 		mGlobalNewsViewAdapter = new GlobalNewsViewAdapter(this, mArticleList, newsSources);
 		recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
@@ -109,7 +92,7 @@ public class GlobalNewsFragment extends Fragment implements
 		recyclerView.setAdapter(mGlobalNewsViewAdapter);
 
 		mController = new Controller(getContext());
-		mController.fetchGlobalNews(this, newsSources);
+		presenter.loadArticles(mController.getNewsAPI);
 		mGlobalNewsViewAdapter.notifyDataSetChanged();
 
 		mCustomTabsServiceConnection = new CustomTabsServiceConnection() {
@@ -127,6 +110,12 @@ public class GlobalNewsFragment extends Fragment implements
 
 		CustomTabsClient.bindCustomTabsService(getContext(), CUSTOM_TAB_PACKAGE_NAME, mCustomTabsServiceConnection);
 		return view;
+	}
+
+	@Override
+	public void initializeNewsData() {
+		newsSources = NewsUtils.NEWS_SOURCES;
+		articleMenus = NewsUtils.ARTICLE_MENU;
 	}
 
 	@Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -178,8 +167,8 @@ public class GlobalNewsFragment extends Fragment implements
 
 	@Override public void OnMenuItemClick(ArticleMenu articleMenu) {
 		bottomSheetDialog.dismiss();
-		switch (articleMenu.getMenuIcon()) {
-			case R.drawable.ic_share_black_24dp:
+		switch (articleMenu.getTag()) {
+			case "share":
 				createShareIntent();
 				break;
 		}
@@ -190,7 +179,8 @@ public class GlobalNewsFragment extends Fragment implements
 		createShareIntent();
 	}
 
-	private void createShareIntent() {
+	@Override
+	public void createShareIntent() {
 		Intent shareIntent = new Intent();
 		shareIntent.setAction(Intent.ACTION_SEND);
 		shareIntent.setType("text/plain");

@@ -5,9 +5,11 @@ import android.util.Log;
 import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.serionz.newsfeed.BuildConfig;
 import com.serionz.newsfeed.R;
 import com.serionz.newsfeed.ui.global_news.SendNews;
 import com.serionz.newsfeed.data.network.model.NewsList;
+import com.serionz.newsfeed.utils.NewsUtils;
 import java.io.IOException;
 import java.util.HashMap;
 import okhttp3.Interceptor;
@@ -28,7 +30,7 @@ public class Controller {
 
 	private static final String TAG = Controller.class.getSimpleName();
 	private Context mContext;
-	private NewsroomAPI getNewsAPI;
+	public NewsroomAPI getNewsAPI;
 
 	public Controller(Context context) {
 		mContext = context;
@@ -47,7 +49,7 @@ public class Controller {
 				@Override public okhttp3.Response intercept(Chain chain) throws IOException {
 					Request originalRequest = chain.request();
 					Request.Builder builder = originalRequest.newBuilder().header("Authorization",
-							mContext.getString(R.string.newsroom_api_key));
+							BuildConfig.NEWS_API_KEY);
 					Request newRequest = builder.build();
 					return chain.proceed(newRequest);
 				}
@@ -58,33 +60,11 @@ public class Controller {
 		Gson gson = new GsonBuilder().create();
 		Retrofit.Builder builder =
 				new Retrofit.Builder()
-						.baseUrl(NewsroomAPI.BASE_URL)
+						.baseUrl(NewsUtils.BASE_URL)
 						.addConverterFactory(GsonConverterFactory.create(gson));
 
 		Retrofit retrofit = builder.client(okHttpClient).build();
 		getNewsAPI = retrofit.create(NewsroomAPI.class);
 	}
-
-	public void fetchGlobalNews(final SendNews sendNews, HashMap<String, Integer> newsSources) {
-
-		for(String source: newsSources.keySet()){
-			Call<NewsList> call = getNewsAPI.loadNews(source);
-			call.enqueue(new Callback<NewsList>() {
-				@Override public void onResponse(Call<NewsList> call, Response<NewsList> response) {
-					if (response.isSuccessful()) {
-						NewsList newslist = response.body();
-						sendNews.receivedNews(newslist);
-					} else {
-						Toast.makeText(mContext, "Some error occurred while fetching results!",
-								Toast.LENGTH_SHORT).show();
-					}
-				}
-				@Override public void onFailure(Call<NewsList> call, Throwable t) {
-					Log.w(TAG, "Failed! ", t);
-				}
-			});
-		}
-	}
-
 
 }

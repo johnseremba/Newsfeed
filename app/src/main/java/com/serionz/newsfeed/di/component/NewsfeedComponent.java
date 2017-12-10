@@ -6,7 +6,10 @@ import com.serionz.newsfeed.NewsfeedApplication;
 import com.serionz.newsfeed.di.ApplicationContext;
 import com.serionz.newsfeed.di.module.NewsfeedModule;
 import dagger.Component;
+import dagger.Provides;
 import javax.inject.Singleton;
+import retrofit2.Converter;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by johnpaulseremba on 06/12/2017.

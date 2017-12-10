@@ -5,12 +5,18 @@ package com.serionz.newsfeed.data.db.model;
  */
 
 public class ArticleMenu {
+	private String tag;
 	private String menuTitle;
 	private Integer menuIcon;
 
-	public ArticleMenu(String menuTitle, Integer menuIcon) {
+	public ArticleMenu(String tag, String menuTitle, Integer menuIcon) {
+		this.tag = tag;
 		this.menuTitle = menuTitle;
 		this.menuIcon = menuIcon;
+	}
+
+	public String getTag() {
+		return tag;
 	}
 
 	public String getMenuTitle() {
