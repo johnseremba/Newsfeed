@@ -7,5 +7,5 @@ import com.serionz.newsfeed.data.network.model.NewsList;
  */
 
 public interface SendNews {
-	void receivedNews(NewsList newsList);
+
 }
