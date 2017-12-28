@@ -1,9 +1,13 @@
 package com.serionz.newsfeed.auth;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -33,6 +37,9 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.serionz.newsfeed.R;
 import com.serionz.newsfeed.main.MainActivity;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public class LoginActivity extends AppCompatActivity {
 	private final int RC_GOOGLE_SIGN_IN = 4001;
 	private final String TAG = LoginActivity.class.getSimpleName();
@@ -48,6 +55,21 @@ public class LoginActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		ButterKnife.bind(this);
+
+		// Generate Facebook keyhash
+		try {
+			PackageInfo info = getPackageManager()
+					.getPackageInfo("com.serionz.newsfeed", PackageManager.GET_SIGNATURES);
+			for (Signature signature : info.signatures) {
+				MessageDigest messageDigest = MessageDigest.getInstance("SHA");
+				messageDigest.update(signature.toByteArray());
+				Log.d("KeyHash:", Base64.encodeToString(messageDigest.digest(), Base64.DEFAULT));
+			}
+		} catch (PackageManager.NameNotFoundException e) {
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
 
 		mAuth = FirebaseAuth.getInstance();
 		progressBar.setVisibility(View.INVISIBLE);
