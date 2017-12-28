@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import com.serionz.newsfeed.main.global_news.GlobalNewsFragment;
+import com.serionz.newsfeed.ui.sports.SportsNewsFragment;
 
 /**
  * Created by johnpaulseremba on 17/11/2017.

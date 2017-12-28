@@ -26,6 +26,7 @@ import com.serionz.newsfeed.R;
 import com.serionz.newsfeed.auth.LoginActivity;
 import com.serionz.newsfeed.glide.GlideApp;
 import com.serionz.newsfeed.main.global_news.GlobalNewsFragment;
+import com.serionz.newsfeed.ui.sports.SportsNewsFragment;
 
 public class MainActivity extends AppCompatActivity implements
 		NavigationView.OnNavigationItemSelectedListener,
