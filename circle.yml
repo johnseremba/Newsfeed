@@ -1,0 +1,21 @@
+test:
+    override:
+        # start the emulator
+        - emulator -avd circle-android24 -no-window:
+            background: true
+            parallel: true
+        # wait for it to have booted
+        - circle-android wait-for-boot
+        # run tests against the emulator
+        - ./gradlew connectedAndroidTest
+        # copy build outputs to artifacts
+        - cp -r newsfeed/build/outputs $CIRCLE_ARTIFACTS
+        # copy the test results to the test results directory
+        - cp -r newsfeed/build/outputs/androidTest-results/* $CIRCLE_TEST_REPORTS
+    
+notify:
+    webhooks:
+        - url: https://hooks.slack.com/services/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
+
+
+

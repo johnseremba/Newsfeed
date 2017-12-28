@@ -11,7 +11,7 @@
       android:id="@+id/news_card"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_gravity="center"
+      android:layoutgravity="center"
       android:layout_margin="10dp"
       android:elevation="3dp"
       app:cardCornerRadius="4dp"
