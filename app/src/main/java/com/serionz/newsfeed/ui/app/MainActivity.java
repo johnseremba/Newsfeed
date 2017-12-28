@@ -17,12 +17,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.serionz.newsfeed.R;
 import com.serionz.newsfeed.glide.GlideApp;
 import com.serionz.newsfeed.ui.auth.LoginActivity;
 import com.serionz.newsfeed.ui.global_news.GlobalNewsFragment;
@@ -75,9 +75,16 @@ public class MainActivity extends AppCompatActivity implements
 		drawer.addDrawerListener(toggle);
 		toggle.syncState();
 
+		profilePic.setOnClickListener(new View.OnClickListener() {
+			@Override public void onClick(View view) {
+
+			}
+		});
+
 
 		this.initializeUserProfile();
 	}
+
 
 	private void initializeTabs() {
 		String tabs[] = { "Global Article", "Sports", "Technology" };
@@ -138,3 +145,4 @@ public class MainActivity extends AppCompatActivity implements
 
 	}
 }
+
